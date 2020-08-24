@@ -1,0 +1,73 @@
+mode: development
+root_dir: /home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/
+
+# assets configuration
+assets:
+  # a flag that enables the creation of gzipped version of compiled assets, along with non-gzipped assets. Set to true by default.
+  gzip: false
+
+  # enables the use of SHA256 fingerprints in asset names. Set to true by default.
+  digest: true
+
+  # disables the concatenation and compression of assets.
+  debug: true
+  quiet: true
+
+  # is an option string that is used in SHA256 hash generation. This can be changed to force all files to be recompiled.
+  version: 1.2.3
+  raise_runtime_errors: true
+
+  # defines the prefix where assets are served from. Defaults to /assets.
+  prefix: /assets
+
+  precompile:
+    files:
+      - application.css
+      - application.js
+
+  public:
+    dir: public
+
+  source:
+    dirs:
+      - app/assets
+      - lib/assets
+      - vendor/assets
+
+  static:
+    files:
+      - /assets/images/image1.jpg
+      - /assets/images/image2.jpg
+
+  stylesheet:
+    dir: stylesheets
+
+  javascript:
+    dir: javascripts
+
+  index:
+    javascript: application.js
+    stylesheet: application.css
+
+testing:
+  host: localhost
+  ssl:  localhost
+  port: 8001
+
+development:
+  host: localhost
+  ssl : localhost
+  port: 8001
+
+  database:
+    username: "development_user"
+    password: "12345"
+    name:     "development_name"
+    log_mode: false
+
+  email:
+    smtp: "development_smtp"
+    pop: "development_pop"
+    username: "development_user"
+    password: "email_password"
+

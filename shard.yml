@@ -1,0 +1,17 @@
+name: sprockets
+version: 0.1.0
+
+authors:
+  - gummybears
+
+crystal: 0.34.0
+
+license: MIT
+
+dependencies:
+
+  sass:
+    github: straight-shoota/sass.cr
+
+  coffee-script:
+    github: jessedoyle/coffee-script

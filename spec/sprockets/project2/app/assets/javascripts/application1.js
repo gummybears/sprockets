@@ -1,0 +1,9 @@
+//= require jquery-3.2.1.min.js
+//= require materialize.js
+//= require axios.js
+//= require vue.js
+//= require vue-router.js
+//= require v_comp_error.js
+//= require v_comp_label.js
+//= require errors.js
+//= require main.js
