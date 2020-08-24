@@ -112,8 +112,7 @@ def create_gzip_file(source : String, dest : String, permission = 0o755, overwri
 
   File.open(source, "r") do |input_file|
     File.open(dest, "w") do |output_file|
-
-      Gzip::Writer.open(output_file) do |gzip|
+      Compress::Gzip::Writer.open(output_file) do |gzip|
         IO.copy(input_file, gzip)
       end
     end
@@ -194,4 +193,16 @@ def create_directory(filename : String, permission = 0o755, is_relative : Bool =
   rescue
     report_error("cannot create directory #{path}")
   end
+end
+
+def stylesheet_link_tag(asset : String) : String
+  return "xxx"
+end
+
+def javascript_include_tag(asset : String) : String
+  return "xxx"
+end
+
+def asset_path(asset : String) : String
+  return "xxx"
 end
