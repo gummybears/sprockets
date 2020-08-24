@@ -85,6 +85,7 @@ TODO: Write development instructions here
 To run the tests, create a symbolic link gummybears
 to point to your home or working directory.
 
+$ cd /home; mkdir gummybears
 $ cd /home; ln -s $HOME gummybears
 
 ## Contributing
