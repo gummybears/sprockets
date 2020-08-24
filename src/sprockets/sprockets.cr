@@ -82,7 +82,6 @@ module Sprockets
       set_relative()
 
       if @quiet == false
-        puts "sprockets version #{VERSION}"
         puts "sprockets : create directory #{@dest_dir}"
       end
       create_directory(@dest_dir,0o755,@is_relative)
