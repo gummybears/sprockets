@@ -1,6 +1,7 @@
 # sprockets
 
 A really simple assets manager.
+This is work in progress.
 
 ## Installation
 
@@ -66,7 +67,8 @@ assets:
   prefix: /assets
 
   public:
-    dir: public
+    dir: public # relative path, relative to the root directory
+    #dir: /your_directory/public # absolute directory path
 
   source:
     dirs:
@@ -75,10 +77,9 @@ assets:
       - vendor/assets
 ```
 
-
 ## Development
 
-TODO: Write development instructions here
+Possibly add minification for stylesheets and javascript assets.
 
 ## Running the tests
 

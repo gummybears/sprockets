@@ -9,10 +9,12 @@ module Sprockets
   end
 
   class Asset
-    property type         : AssetType = AssetType::StaticAsset
-    property source_path  : String = ""
-    property dest_path    : String = ""
-    property mtime        : Time
+    property type          : AssetType = AssetType::StaticAsset
+    property source_path   : String = ""
+    property logical_path  : String = ""
+    property dest_path     : String = ""
+    property digest        : String = ""
+    property mtime         : Time
 
     def initialize
       @mtime    = Time.local

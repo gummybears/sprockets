@@ -125,6 +125,46 @@ module Sprockets
           walk_dir(dir)
         end
       end
+
+      #
+      # create manifest file
+      #
+      stream = Stream.new
+      stream.add("{")
+      stream.add("\"files\" : {")
+      @assets_map.each do |k,v|
+        if v.type != Sprockets::AssetType::SkipAsset
+          stream.add(sprintf("  \"%s\": {",strip_directory(v.dest_path)))
+          stream.add(sprintf("    \"logical_path\": \"%s\"",v.logical_path))
+          stream.add(sprintf("    \"mtime\": \"%s\"",v.mtime))
+          stream.add(sprintf("    \"digest\": \"%s\"",v.digest))
+          stream.add(sprintf("    \"integrity: \"%s\"",""))
+          stream.add("  },")
+        end
+      end
+      stream.add("},")
+      stream.add("\"assets\" : {")
+
+      @assets_map.each do |k,v|
+        if v.type != Sprockets::AssetType::SkipAsset
+          stream.add(sprintf("  \"%s\": \"%s\" ,",strip_directory(v.logical_path),strip_directory(v.dest_path)))
+        end
+      end
+      stream.add("  }")
+      stream.add("}")
+
+      dest = ""
+
+      if @is_relative
+        dest = @root_dir + @public_dir
+      else
+        dest = @public_dir
+      end
+
+      #puts "dest dir #{dest}"
+      create_directory(dest,0o755,false) #@is_relative)
+      stream.write(dest + "/manifest.json")
+
     end
 
     #
@@ -143,27 +183,28 @@ module Sprockets
           filename           = files[i]
           full_filename      = path + "/" + filename
           asset              = Sprockets::Asset.new()
+          asset.logical_path = remove_doubleslashes(filename)
           asset.source_path  = remove_doubleslashes(full_filename)
           asset.mtime        = File.info(full_filename).modification_time
           asset.type         = determine_asset_type(filename)
-          asset.dest_path    = compute_target_path(asset.source_path)
+          asset.dest_path,asset.digest = compute_target_path(asset.source_path)
+
           @assets_map[filename] = asset
 
         end
       end
     end # walk_dir
 
-    def compute_target_path(filename : String) : String
+    def compute_target_path(filename : String) : {String,String}
 
-      # ext    = get_extension(filename)
       source = filename
       dest   = ""
-
+      digest = ""
       if @digest && @gzip
-        dest = digest_filename(source,@version)
+        dest,digest = digest_filename(source,@version)
         dest = gzip_filename(dest)
       elsif @digest
-        dest = digest_filename(source,@version)
+        dest,digest = digest_filename(source,@version)
       elsif @gzip
         dest = gzip_filename(source)
       else
@@ -176,7 +217,7 @@ module Sprockets
         dest = @dest_dir + "/" + strip_directory(dest)
       end
 
-      return dest
+      return dest,digest
     end
 
     #
@@ -288,7 +329,7 @@ module Sprockets
       source_file = asset.source_path
       check_file(source_file)
 
-      dest_file = compute_target_path(source_file)
+      dest_file,digest = compute_target_path(source_file)
 
       #
       # the destination file is not present, cannot do comparison

@@ -1,0 +1,34 @@
+{
+"files" : {
+  "application-67a278a0863666a39529b41e31cd49d6.js": {
+    "logical_path": "application.js"
+    "mtime": "2020-08-20 19:08:12 UTC"
+    "digest": "67a278a0863666a39529b41e31cd49d6"
+    "integrity: ""
+  },
+  "logo-c789cac6da0756bb18376b79cb148844.png": {
+    "logical_path": "logo.png"
+    "mtime": "2017-10-29 22:32:22 UTC"
+    "digest": "c789cac6da0756bb18376b79cb148844"
+    "integrity: ""
+  },
+  "font1-ecf9dae5bf946637352c47edf9949512.woff": {
+    "logical_path": "font1.woff"
+    "mtime": "2017-10-29 22:32:22 UTC"
+    "digest": "ecf9dae5bf946637352c47edf9949512"
+    "integrity: ""
+  },
+  "application-aee72038731bb7838c11204dc56265d5.css": {
+    "logical_path": "application.css"
+    "mtime": "2017-10-29 22:32:22 UTC"
+    "digest": "aee72038731bb7838c11204dc56265d5"
+    "integrity: ""
+  },
+},
+"assets" : {
+  "application.js": "application-67a278a0863666a39529b41e31cd49d6.js" ,
+  "logo.png": "logo-c789cac6da0756bb18376b79cb148844.png" ,
+  "font1.woff": "font1-ecf9dae5bf946637352c47edf9949512.woff" ,
+  "application.css": "application-aee72038731bb7838c11204dc56265d5.css" ,
+  }
+}

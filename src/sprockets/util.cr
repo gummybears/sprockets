@@ -41,7 +41,6 @@ end
 
 # returns the file without the path
 def strip_directory(filename : String) : String
-
   return File.basename(filename)
 end
 
@@ -63,7 +62,7 @@ end
 #
 # returns a digested name given filename
 #
-def digest_filename(filename : String, version : String = "") : String
+def digest_filename(filename : String, version : String = "") : {String, String}
 
   ext      = get_extension(filename)
   digest   = compute_md5hash(filename)
@@ -76,7 +75,7 @@ def digest_filename(filename : String, version : String = "") : String
   end
 
   filename = strip_extension(filename) + "-" + digest + ext
-  return filename
+  return filename, digest
 end
 
 # returns a gzip name given filename
@@ -112,7 +111,8 @@ def create_gzip_file(source : String, dest : String, permission = 0o755, overwri
 
   File.open(source, "r") do |input_file|
     File.open(dest, "w") do |output_file|
-      Compress::Gzip::Writer.open(output_file) do |gzip|
+      # 0.35.1 Compress::Gzip::Writer.open(output_file) do |gzip|
+      Gzip::Writer.open(output_file) do |gzip|
         IO.copy(input_file, gzip)
       end
     end
@@ -196,13 +196,19 @@ def create_directory(filename : String, permission = 0o755, is_relative : Bool =
 end
 
 def stylesheet_link_tag(asset : String) : String
+  #config = Sprockets::Config.new(filename)
+  #public_dir = config.assets_public_directory()
   return "xxx"
 end
 
 def javascript_include_tag(asset : String) : String
+  #config = Sprockets::Config.new(filename)
+  #public_dir = config.assets_public_directory()
   return "xxx"
 end
 
 def asset_path(asset : String) : String
+  #config = Sprockets::Config.new(filename)
+  #public_dir = config.assets_public_directory()
   return "xxx"
 end

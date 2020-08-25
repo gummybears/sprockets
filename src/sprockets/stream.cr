@@ -126,12 +126,12 @@ class Stream
   # save stream to file
   #
   def write(filename : String)
-    lines = contents()
+    lines = to_a()
 
     begin
       file  = File.new(filename,"wb")
       lines.each do |line|
-        file.puts line.text
+        file.puts line
       end
       file.close
     rescue e

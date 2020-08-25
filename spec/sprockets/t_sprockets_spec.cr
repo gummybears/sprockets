@@ -98,7 +98,7 @@ describe "Sprockets precompile" do
       s = new_sprockets("./spec/sprockets/test1.yml")
       s.digest   = false
 
-      dir        = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/javascripts/application.js")
+      dir,digest = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/javascripts/application.js")
       target_dir = "/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/public/assets/application.js"
 
       dir.should eq target_dir
@@ -108,7 +108,7 @@ describe "Sprockets precompile" do
       s = new_sprockets("./spec/sprockets/test1.yml")
       s.digest = false
 
-      dir = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/javascripts/app.coffee")
+      dir,digest = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/javascripts/app.coffee")
 
       target_dir = "/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/public/assets/app.coffee"
       dir.should eq target_dir
@@ -118,7 +118,7 @@ describe "Sprockets precompile" do
       s = new_sprockets("./spec/sprockets/test1.yml")
       s.digest = false
 
-      dir = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/images/logo.png")
+      dir,digest = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/images/logo.png")
 
       target_dir = "/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/public/assets/logo.png"
       dir.should eq target_dir
@@ -126,7 +126,7 @@ describe "Sprockets precompile" do
 
     it "app/assets/woff.toff" do
       s = new_sprockets("./spec/sprockets/test1.yml")
-      dir        = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/stylesheets/fonts/roboto/font1.woff")
+      dir,digest = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/stylesheets/fonts/roboto/font1.woff")
       target_dir = "/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/public/assets/font1-ecf9dae5bf946637352c47edf9949512.woff"
       dir.should eq target_dir
     end
@@ -134,7 +134,7 @@ describe "Sprockets precompile" do
 
     it "testdata/app/assets/application.css" do
       s = new_sprockets("./spec/sprockets/test1.yml")
-      dir = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/stylesheets/application.css")
+      dir,digest = s.compute_target_path("/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/app/assets/stylesheets/application.css")
       dir.should eq "/home/gummybears/development/crystal/web/sprockets/spec/sprockets/project1/public/assets/application-aee72038731bb7838c11204dc56265d5.css"
     end
   end
@@ -257,5 +257,16 @@ describe "Sprockets precompile" do
       # cleanup
       remove_directory(dest_dir)
     end
+  end
+
+  it "manifest.json" do
+    dest_dir   = Dir.current + "/spec/sprockets/project1/public"
+    assets_dir = Dir.current + "/spec/sprockets/project1/public/assets"
+    remove_directory(dest_dir)
+
+    s = new_sprockets("./spec/sprockets/test1.yml")
+    s.precompile_assets()
+
+    File.exists?(Dir.current + "/spec/sprockets/project1/public/manifest.json").should eq true
   end
 end
