@@ -1,5 +1,5 @@
 name: sprockets
-version: 0.1.4
+version: 0.1.5
 
 authors:
   - gummybears
@@ -9,6 +9,10 @@ crystal: 0.34.0
 license: MIT
 
 dependencies:
+
+  duktape:
+    github: jessedoyle/duktape.cr
+    version: 0.20.0
 
   sass:
     github: straight-shoota/sass.cr
