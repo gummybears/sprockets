@@ -5,7 +5,7 @@ describe "Asset helpers" do
 
   it "asset_path" do
     config = "assets.yml"
-    s = asset_path("logo.png")
+    s = asset_path("#{Dir.current}/public","logo.png")
     s.should eq "xx"
   end
 

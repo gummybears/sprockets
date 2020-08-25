@@ -207,8 +207,31 @@ def javascript_include_tag(asset : String) : String
   return "xxx"
 end
 
-def asset_path(asset : String) : String
-  #config = Sprockets::Config.new(filename)
-  #public_dir = config.assets_public_directory()
-  return "xxx"
+#def asset_path(asset : String) : String
+#  #config = Sprockets::Config.new(filename)
+#  #public_dir = config.assets_public_directory()
+#  return "xxx"
+#end
+
+
+def asset_path(public_dir : String,filename : String)
+  #public_dir = get_public_dir()
+
+  manifest = public_dir + "/" + "manifest.json"
+  if File.exists?(manifest)
+    lines = File.read_lines(manifest)
+    #return
+  end
+
+  if filename == "application.css"
+    return "/assets/application-2e7ecac1dafaaa7542871688d6c67dbb.css"
+  end
+
+  if filename == "application.js"
+    return "/assets/application-a800c3d673237603065b7dbc9f3597e9.js"
+    #return "/assets/application-ab7c3f684dd600b449c5f1caf980c0e5.js"
+  end
+
+  return "/assets/#{filename}"
 end
+
