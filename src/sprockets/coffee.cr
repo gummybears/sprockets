@@ -39,10 +39,6 @@ module Sprockets
           next
         end
 
-        # old code if line == ""
-        # old code   next
-        # old code end
-
         #
         # process filename
         # either with or without extension
@@ -109,12 +105,12 @@ module Sprockets
           end
 
         else
-          #
-          # skip comment lines like
-          # /* .... */
-          if line =~ /\/\*.+\*\//
-            next
-          end
+          # old code #
+          # old code # skip comment lines like
+          # old code # /* .... */
+          # old code if line =~ /\/\*.+\*\//
+          # old code   next
+          # old code end
 
           # skip backtick
           if line =~ /`/
@@ -130,9 +126,6 @@ module Sprockets
           else
             @coffee.add(line)
           end
-
-          #@output << line
-
         end
       end
     end
