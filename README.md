@@ -59,7 +59,6 @@ assets:
   #
   digest: true
 
-  debug: true
   #
   # setting quiet to false will generate terminal output showing which files are preprocessed
   #
@@ -71,7 +70,7 @@ assets:
   version:
 
   #
-  # defines the prefix where assets are served from. Defaults to /assets.
+  # defines the prefix where assets are served from. Defaults to /assets
   #
   prefix: /assets
 
@@ -102,9 +101,11 @@ of assets when in development mode.
 
 To run the tests, create a symbolic link gummybears
 to point to your home or working directory.
-
+```
 $ cd /home; mkdir gummybears
 $ cd /home; ln -s $HOME gummybears
+$ crystal spec
+```
 
 ## Contributing
 
