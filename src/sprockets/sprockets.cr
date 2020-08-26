@@ -5,14 +5,14 @@ require "./js.cr"
 require "./coffee.cr"
 require "./sass.cr"
 
-module Sprockets
+EXTENSION_CSS        = ".css"
+EXTENSION_JS         = ".js"
+EXTENSION_SCSS       = ".scss"
+EXTENSION_SASS       = ".sass"
+EXTENSION_COFFEE     = ".coffee"
+EXTENSION_VUE        = ".vue"
 
-  EXTENSION_CSS        = ".css"
-  EXTENSION_JS         = ".js"
-  EXTENSION_SCSS       = ".scss"
-  EXTENSION_SASS       = ".sass"
-  EXTENSION_COFFEE     = ".coffee"
-  EXTENSION_VUE        = ".vue"
+module Sprockets
 
   class Sprocket
 
@@ -409,13 +409,13 @@ module Sprockets
 
       ext = get_extension(asset.dest_path)
       case ext
-        when ".sass"
+        when EXTENSION_SASS # ".sass"
           asset.rename_to_css()
 
-        when ".scss"
+        when EXTENSION_SCSS #".scss"
           asset.rename_to_css()
 
-        when ".coffee"
+        when EXTENSION_COFFEE #".coffee"
           asset.rename_to_js()
 
         else

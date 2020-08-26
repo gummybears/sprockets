@@ -199,6 +199,12 @@ end
 def stylesheet_link_tag(public_dir : String,filename : String) : String
   manifest = public_dir + "/" + "manifest.json"
 
+  #
+  # strip any extension from filename
+  # and add ".css"
+  #
+  filename = strip_extension(filename) + EXTENSION_CSS
+
   if File.exists?(manifest)
     lines  = File.read_lines(manifest)
     json   = Sprockets::Assets.from_json(lines.join("\n"))
@@ -216,6 +222,12 @@ end
 
 def javascript_include_tag(public_dir : String,filename : String) : String
   manifest = public_dir + "/" + "manifest.json"
+
+  #
+  # strip any extension from filename
+  # and add ".js"
+  #
+  filename = strip_extension(filename) + EXTENSION_JS
 
   if File.exists?(manifest)
     lines  = File.read_lines(manifest)
