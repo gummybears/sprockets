@@ -78,14 +78,14 @@ module Sprockets
     end
 
     def rename_to_css()
-      @dest_path    = strip_extension(@dest_path) + EXTENSION_CSS #".css"
-      @source_path  = strip_extension(@source_path) + EXTENSION_CSS # ".css"
+      @dest_path    = strip_extension(@dest_path)    + EXTENSION_CSS
+      @source_path  = strip_extension(@source_path)  + EXTENSION_CSS
       @logical_path = strip_extension(@logical_path) + EXTENSION_CSS
     end
 
     def rename_to_js()
-      @dest_path    = strip_extension(@dest_path) + EXTENSION_JS #".js"
-      @source_path  = strip_extension(@source_path) + EXTENSION_JS #".js"
+      @dest_path    = strip_extension(@dest_path)    + EXTENSION_JS
+      @source_path  = strip_extension(@source_path)  + EXTENSION_JS
       @logical_path = strip_extension(@logical_path) + EXTENSION_JS
     end
   end

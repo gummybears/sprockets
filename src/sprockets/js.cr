@@ -79,8 +79,7 @@ module Sprockets
             dirname = strip_extension(md[1].not_nil!)
             dirname = basedir + "/" + dirname
             if Dir.exists?(dirname) == false
-              puts "sprockets : directory #{dirname} not found"
-              exit(0)
+              report_error("sprockets : directory #{dirname} not found")
             end
 
             #
@@ -137,10 +136,8 @@ module Sprockets
       end
 
       if flag1 == false && flag2 == false
-        puts "sprockets : file '#{filename}(.js|coffee)' not found"
-        exit
+        report_error("sprockets : file '#{filename}(.js|coffee)' not found")
       end
-
     end
   end
 end

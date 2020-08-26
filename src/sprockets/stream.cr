@@ -135,8 +135,7 @@ class Stream
       end
       file.close
     rescue e
-      puts "cannot create file '#{filename}'"
-      exit
+      report_error("cannot create file '#{filename}'")
     end
   end
 

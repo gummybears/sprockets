@@ -4,7 +4,6 @@ require "./util.cr"
 module Sprockets
   class SASS
     property quiet  : Bool = true
-    #property output : Array(String)
     private  property output : Array(String)
 
     def initialize(quiet : Bool = true)
@@ -47,7 +46,6 @@ module Sprockets
           if md.size == 2
 
             filename = md[1].not_nil!
-            #filename = strip_extension(org_filename)
             testfile(basedir,filename)
 
           end
@@ -56,7 +54,6 @@ module Sprockets
 
           if md.size == 2
 
-            #filename = strip_extension(md[1].not_nil!)
             filename = md[1].not_nil!
             testfile(basedir,filename)
 
@@ -66,7 +63,6 @@ module Sprockets
 
           if md.size == 2
 
-            #filename = strip_extension(md[1].not_nil!)
             filename = md[1].not_nil!
             testfile(basedir,filename)
 
@@ -76,7 +72,6 @@ module Sprockets
 
           if md.size == 2
 
-            #filename = remove_doublequotes(strip_extension(md[1].not_nil!))
             filename = remove_doublequotes(md[1].not_nil!)
             testfile(basedir,filename)
 
@@ -95,8 +90,6 @@ module Sprockets
             dir = Dir.new(dirname)
             dir.children.each do |file|
 
-              #filename = strip_extension(file)
-              #testfile(dirname,filename)
               testfile(dirname,file)
 
             end
@@ -120,17 +113,13 @@ module Sprockets
           # skip multi-comment lines
           # only for css
           #
-          if line =~ /^\/\*/ && ext == ".css"
+          if line =~ /^\/\*/ && ext == EXTENSION_CSS
             next
           end
 
-          if line =~ /\*\// && ext == ".css"
+          if line =~ /\*\// && ext == EXTENSION_CSS
             next
           end
-
-          # if line =~ /\/\*.\*\//
-          #   next
-          # end
 
           @output << line
 
@@ -150,17 +139,17 @@ module Sprockets
 
       filename = strip_extension(org_filename)
 
-      test_filename = basedir + "/" + filename + ".css"
+      test_filename = basedir + "/" + filename + EXTENSION_CSS
       if File.exists?(test_filename)
         read(test_filename)
       end
 
-      test_filename = basedir + "/" + filename + ".sass"
+      test_filename = basedir + "/" + filename + EXTENSION_SASS
       if File.exists?(test_filename)
         read(test_filename)
       end
 
-      test_filename = basedir + "/" + filename + ".scss"
+      test_filename = basedir + "/" + filename + EXTENSION_SCSS
       if File.exists?(test_filename)
         read(test_filename)
       end
@@ -173,7 +162,6 @@ module Sprockets
       # Convention seems to be that 'file' is
       # stored as '_file'
       #
-
       #
       # test for directory (is there a '/')
       # if so replace '/' with '/_'
@@ -181,17 +169,17 @@ module Sprockets
       if filename =~ /\//
         filename = filename.gsub(/\//,"/_")
 
-        test_filename = basedir + "/" + filename + ".css"
+        test_filename = basedir + "/" + filename + EXTENSION_CSS
         if File.exists?(test_filename)
           read(test_filename)
         end
 
-        test_filename = basedir + "/" + filename + ".sass"
+        test_filename = basedir + "/" + filename + EXTENSION_SASS
         if File.exists?(test_filename)
           read(test_filename)
         end
 
-        test_filename = basedir + "/" + filename + ".scss"
+        test_filename = basedir + "/" + filename + EXTENSION_SCSS
         if File.exists?(test_filename)
           read(test_filename)
         end
@@ -208,9 +196,8 @@ module Sprockets
         return output
       end
 
-      # test output write_file("test_sass.txt",@output,0o755,true)
       s      = @output.join("\n")
-      x      = Sass.compile(s) #,include_path: "includes")
+      x      = Sass.compile(s)
       output = x.split("\n")
       return output
     end

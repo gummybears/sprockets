@@ -3,7 +3,6 @@ require "./stream.cr"
 
 module Sprockets
   class Coffee
-
     property quiet  : Bool = true
     property is_js  : Bool = false
     property js     : Stream
@@ -105,12 +104,6 @@ module Sprockets
           end
 
         else
-          # old code #
-          # old code # skip comment lines like
-          # old code # /* .... */
-          # old code if line =~ /\/\*.+\*\//
-          # old code   next
-          # old code end
 
           # skip backtick
           if line =~ /`/
@@ -141,20 +134,20 @@ module Sprockets
 
       filename = strip_extension(org_filename)
 
-      test_filename = basedir + "/" + filename + ".js"
+      test_filename = basedir + "/" + filename + EXTENSION_JS
       if File.exists?(test_filename)
         @is_js = true
         read(test_filename)
       end
 
-      test_filename = basedir + "/" + filename + ".coffee"
+      test_filename = basedir + "/" + filename + EXTENSION_COFFEE
       if File.exists?(test_filename)
         @is_js = false
         read(test_filename)
       end
     end
 
-    def compile() #: Array(String)
+    def compile()
 
       #
       # nothing to compile
@@ -178,8 +171,6 @@ module Sprockets
             # Crystal 0.34
         end # case
       end # if
-
-      #return output
     end
   end
 end

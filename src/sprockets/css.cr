@@ -68,8 +68,7 @@ module Sprockets
             dirname = strip_extension(md[1].not_nil!)
             dirname = basedir + "/" + dirname
             if Dir.exists?(dirname) == false
-              puts "sprockets : directory #{dirname} not found"
-              exit(0)
+              report_error("sprockets : directory #{dirname} not found")
             end
 
             #
@@ -110,17 +109,17 @@ module Sprockets
     #
     def testfile(basedir : String, filename : String)
 
-      full_filename = basedir + "/" + filename + ".css"
+      full_filename = basedir + "/" + filename + EXTENSION_CSS
       if File.exists?(full_filename)
         read(full_filename)
       end
 
-      full_filename = basedir + "/" + filename + ".sass"
+      full_filename = basedir + "/" + filename + EXTENSION_SASS
       if File.exists?(full_filename)
         read(full_filename)
       end
 
-      full_filename = basedir + "/" + filename + ".scss"
+      full_filename = basedir + "/" + filename + EXTENSION_SCSS
       if File.exists?(full_filename)
         read(full_filename)
       end
