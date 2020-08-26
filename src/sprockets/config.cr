@@ -81,26 +81,35 @@ module Sprockets
 
     def read_bool(key1 : String, key2 : String) : Bool
       r = false
-      if @yaml[key1]? && @yaml[key1][key2]?
-        r = @yaml[key1][key2].as_bool
+      begin
+        if @yaml[key1]? && @yaml[key1][key2]?
+          r = @yaml[key1][key2].as_bool
+        end
+      rescue
       end
       r
     end
 
     def read_bool(key1 : String, key2 : String, key3 : String) : Bool
       r = false
-      if @yaml[key1]? && @yaml[key1][key2]? && @yaml[key1][key2][key3]?
-        r = @yaml[key1][key2][key3].as_bool
+      begin
+        if @yaml[key1]? && @yaml[key1][key2]? && @yaml[key1][key2][key3]?
+          r = @yaml[key1][key2][key3].as_bool
+        end
+      rescue
       end
       r
     end
 
     def read_strings(key1 : String, key2 : String, key3 : String) : Array(String)
       r = [] of String
-      if @yaml[key1]? && @yaml[key1][key2]? && @yaml[key1][key2][key3]?
-        @yaml[key1][key2][key3].as_a.each do |v|
-          r << v.as_s
+      begin
+        if @yaml[key1]? && @yaml[key1][key2]? && @yaml[key1][key2][key3]?
+          @yaml[key1][key2][key3].as_a.each do |v|
+            r << v.as_s
+          end
         end
+      rescue
       end
       return r
     end
@@ -174,7 +183,12 @@ module Sprockets
     end
 
     def assets_prefix() : String
-      read_string("assets","prefix")
+      x = read_string("assets","prefix")
+      if x == ""
+        x = "/assets"
+      end
+
+      return x
     end
 
     def assets_version() : String
@@ -187,7 +201,7 @@ module Sprockets
         report_error("sprockets : public assets directory not set")
       end
 
-      x
+      return x
     end
 
     # list of source directories of our asset files

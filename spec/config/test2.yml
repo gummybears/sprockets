@@ -18,7 +18,7 @@ assets:
   raise_runtime_errors: false
 
   # defines the prefix where assets are served from. Defaults to /assets.
-  prefix: /assets
+  prefix:
 
   precompile:
     files:

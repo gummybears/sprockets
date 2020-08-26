@@ -78,7 +78,7 @@ describe "Config" do
     end
   end
 
-  describe "get the assets gzip" do
+  describe "assets gzip" do
     it "test1.yml" do
       config = Sprockets::Config.new("./spec/config/test1.yml")
       lv_x = config.assets_gzip()
@@ -93,7 +93,7 @@ describe "Config" do
 
   end
 
-  describe "get the assets digest" do
+  describe "assets digest" do
     it "test1.yml" do
       config = Sprockets::Config.new("./spec/config/test1.yml")
       lv_x = config.assets_digest()
@@ -108,43 +108,52 @@ describe "Config" do
 
   end
 
-  it "get the assets quiet" do
+  it "assets quiet" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     lv_x = config.assets_quiet()
     lv_x.should eq true
   end
 
-  it "get the assets debug" do
+  it "assets debug" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     lv_x = config.assets_debug()
     lv_x.should eq true
   end
 
-  it "get the assets prefix" do
-    config = Sprockets::Config.new("./spec/config/test1.yml")
-    lv_x = config.assets_prefix()
-    lv_x.should eq "/assets"
+  describe "assets prefix" do
+    it "is set" do
+      config = Sprockets::Config.new("./spec/config/test1.yml")
+      lv_x = config.assets_prefix()
+      lv_x.should eq "/assets"
+    end
+
+    it "not set" do
+      config = Sprockets::Config.new("./spec/config/test2.yml")
+      lv_x = config.assets_prefix()
+      lv_x.should eq "/assets"
+    end
+
   end
 
-  it "get the assets version" do
+  it "assets version" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     lv_x = config.assets_version()
     lv_x.should eq "1.2.3"
   end
 
-  it "get the assets raise runtime error" do
+  it "assets raise runtime error" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     lv_x = config.assets_raise_error()
     lv_x.should eq true
   end
 
-  it "get assets source directories" do
+  it "assets source directories" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     dir = config.assets_directories()
     dir.should eq ["app/assets","lib/assets","vendor/assets"]
   end
 
-  it "get the assets public directory" do
+  it "assets public directory" do
     config = Sprockets::Config.new("./spec/config/test1.yml")
     dir = config.assets_public_directory()
     dir.should eq "public"

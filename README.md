@@ -23,8 +23,7 @@ require "sprockets"
 
 To precompile assets, you could write a small program as follows
 ```
-require "sprockets/src/sprockets/config.cr"
-require "sprockets/src/sprockets/sprockets.cr"
+require "sprockets"
 
 args = ARGV
 
@@ -50,26 +49,43 @@ root_dir: <WORKDIR>
 
 # assets configuration
 assets:
+  #
   # a flag that enables the creation of gzipped version of compiled assets, along with non-gzipped assets. Set to true by default.
+  #
   gzip: false
 
+  #
   # enables the use of SHA256 fingerprints in asset names. Set to true by default.
+  #
   digest: true
 
-  # disables the concatenation and compression of assets.
   debug: true
+  #
+  # setting quiet to false will generate terminal output showing which files are preprocessed
+  #
   quiet: true
 
+  #
   # version is optional, but when set is used in SHA256 hash generation, which will force all files to be recompiled.
+  #
   version:
 
+  #
   # defines the prefix where assets are served from. Defaults to /assets.
+  #
   prefix: /assets
 
   public:
-    dir: public # relative path, relative to the root directory
-    #dir: /your_directory/public # absolute directory path
+    # relative path, relative to the root directory
+    dir: public
 
+    # absolute path
+    # dir: /your_directory/public
+
+  #
+  # location of your asset sources
+  # Note: source filenames should be unique
+  #
   source:
     dirs:
       - app/assets
@@ -79,7 +95,8 @@ assets:
 
 ## Development
 
-Possibly add minification for stylesheets and javascript assets.
+Possibly add minification for stylesheets and javascript assets and hot reloading
+of assets when in development mode.
 
 ## Running the tests
 

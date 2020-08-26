@@ -3,12 +3,14 @@ require "./util.cr"
 
 module Sprockets
   class SASS
-    property quiet  : Bool = true
+    property quiet     : Bool = true
+    property minifiied : Bool = false
     private  property output : Array(String)
 
-    def initialize(quiet : Bool = true)
-      @quiet  = quiet
-      @output = [] of String
+    def initialize(quiet : Bool = true, minified : Bool = false)
+      @quiet    = quiet
+      @minified = minified
+      @output   = [] of String
     end
 
     def preprocess(filename : String) : Array(String)
@@ -187,7 +189,12 @@ module Sprockets
     end
 
     def compile() : Array(String)
-      output = [] of String
+      style = :allman_style
+      if @minified
+        style = :minimized
+      end
+
+      output   = [] of String
 
       #
       # nothing to compile
@@ -196,8 +203,13 @@ module Sprockets
         return output
       end
 
-      s      = @output.join("\n")
-      x      = Sass.compile(s)
+      s = @output.join("\n")
+      x = Sass.compile(s)
+      # #compiler = Sass.new({output_style: style})
+      # #x = compiler.compile(s)
+      # compiler = Sass.new(output_style: :minimized)
+      # x = compiler.compile(s)
+      #
       output = x.split("\n")
       return output
     end

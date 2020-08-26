@@ -94,7 +94,6 @@ module Sprockets
           end
 
           @output << line
-
         end
       end
     end
