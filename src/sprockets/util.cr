@@ -1,5 +1,6 @@
 require "digest/md5"
 require "gzip"
+require "json"
 
 # checks directory exists
 def check_dir(name : String)
@@ -195,41 +196,55 @@ def create_directory(filename : String, permission = 0o755, is_relative : Bool =
   end
 end
 
-def stylesheet_link_tag(asset : String) : String
-  #config = Sprockets::Config.new(filename)
-  #public_dir = config.assets_public_directory()
-  return "xxx"
+def stylesheet_link_tag(public_dir : String,filename : String) : String
+  manifest = public_dir + "/" + "manifest.json"
+
+  if File.exists?(manifest)
+    lines  = File.read_lines(manifest)
+    json   = Sprockets::Assets.from_json(lines.join("\n"))
+
+    assetkeys = json.assets.assets
+    if assetkeys[filename]?
+      s = sprintf("<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\">",assetkeys[filename])
+      return s
+    end
+
+  end
+
+  return "/assets/#{filename}"
 end
 
-def javascript_include_tag(asset : String) : String
-  #config = Sprockets::Config.new(filename)
-  #public_dir = config.assets_public_directory()
-  return "xxx"
-end
+def javascript_include_tag(public_dir : String,filename : String) : String
+  manifest = public_dir + "/" + "manifest.json"
 
-#def asset_path(asset : String) : String
-#  #config = Sprockets::Config.new(filename)
-#  #public_dir = config.assets_public_directory()
-#  return "xxx"
-#end
+  if File.exists?(manifest)
+    lines  = File.read_lines(manifest)
+    json   = Sprockets::Assets.from_json(lines.join("\n"))
+
+    assetkeys = json.assets.assets
+    if assetkeys[filename]?
+      s = sprintf("<script type=\"text/javascript\" src=\"%s\"></script>",assetkeys[filename])
+      return s
+    end
+  end
+
+  return "/assets/#{filename}"
+end
 
 
 def asset_path(public_dir : String,filename : String)
-  #public_dir = get_public_dir()
 
   manifest = public_dir + "/" + "manifest.json"
+
   if File.exists?(manifest)
-    lines = File.read_lines(manifest)
-    #return
-  end
+    lines  = File.read_lines(manifest)
+    json   = Sprockets::Assets.from_json(lines.join("\n"))
 
-  if filename == "application.css"
-    return "/assets/application-2e7ecac1dafaaa7542871688d6c67dbb.css"
-  end
+    assetkeys = json.assets.assets
+    if assetkeys[filename]?
+      return assetkeys[filename]
+    end
 
-  if filename == "application.js"
-    return "/assets/application-a800c3d673237603065b7dbc9f3597e9.js"
-    #return "/assets/application-ab7c3f684dd600b449c5f1caf980c0e5.js"
   end
 
   return "/assets/#{filename}"

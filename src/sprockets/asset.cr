@@ -1,4 +1,6 @@
+require "json"
 require "./util.cr"
+
 module Sprockets
 
   enum AssetType
@@ -8,7 +10,53 @@ module Sprockets
     SkipAsset
   end
 
+  class Assets
+    include JSON::Serializable
+
+    property files  : AssetFiles
+    property assets : AssetKeys
+
+    def initialize
+      @files  = Sprockets::AssetFiles.new
+      @assets = Sprockets::AssetKeys.new
+    end
+
+    def add_file(logical : String, asset : Asset)
+      @files.files[logical] = asset
+    end
+
+    def add_asset(logical : String, dest : String)
+      @assets.assets[logical] = dest
+    end
+
+  end
+
+  class AssetFiles
+    include JSON::Serializable
+
+    property files : Hash(String,Asset)
+
+    def initialize
+      @files = Hash(String,Asset).new
+    end
+  end
+
+  class AssetKeys
+    include JSON::Serializable
+
+    property assets : Hash(String,String)
+    def initialize
+      @assets = Hash(String,String).new
+    end
+  end
+
   class Asset
+    include JSON::Serializable
+
+    @[JSON::Field(key: "type", ignore: true)]
+    @[JSON::Field(key: "source_path", ignore: true)]
+    @[JSON::Field(key: "dest_path", ignore: true)]
+
     property type          : AssetType = AssetType::StaticAsset
     property source_path   : String = ""
     property logical_path  : String = ""

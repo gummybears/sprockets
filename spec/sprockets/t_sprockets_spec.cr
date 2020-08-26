@@ -167,6 +167,12 @@ describe "Sprockets precompile" do
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/logo-c789cac6da0756bb18376b79cb148844.png",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application-aee72038731bb7838c11204dc56265d5.css",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application-67a278a0863666a39529b41e31cd49d6.js",true)
+      fileexists(Dir.current + "/spec/sprockets/project1/public/manifest.json",true)
+
+      # test code
+      manifest = Dir.current + "/spec/sprockets/project1/public/manifest.json"
+      lines  = File.read_lines(manifest)
+      json   = Sprockets::Assets.from_json(lines.join("\n"))
 
       remove_directory(dest_dir)
     end
@@ -183,8 +189,8 @@ describe "Sprockets precompile" do
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application-aee72038731bb7838c11204dc56265d5.css.gz",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/font1-ecf9dae5bf946637352c47edf9949512.woff.gz",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/logo-c789cac6da0756bb18376b79cb148844.png.gz",true)
+      fileexists(Dir.current + "/spec/sprockets/project1/public/manifest.json",true)
 
-      # cleanup
       remove_directory(dest_dir)
     end
 
@@ -200,8 +206,8 @@ describe "Sprockets precompile" do
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application.css.gz",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/font1.woff.gz",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/logo.png.gz",true)
+      fileexists(Dir.current + "/spec/sprockets/project1/public/manifest.json",true)
 
-      # cleanup
       remove_directory(dest_dir)
     end
 
@@ -213,13 +219,12 @@ describe "Sprockets precompile" do
       s.precompile_assets()
       s.assets_map.size.should eq 7
 
-      # static files
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application.js",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application.css",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/font1.woff",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/logo.png",true)
+      fileexists(Dir.current + "/spec/sprockets/project1/public/manifest.json",true)
 
-      # cleanup
       remove_directory(dest_dir)
     end
 
@@ -235,8 +240,8 @@ describe "Sprockets precompile" do
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/logo-c789cac6da0756bb18376b79cb148844-123.png",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application-aee72038731bb7838c11204dc56265d5-123.css",true)
       fileexists(Dir.current + "/spec/sprockets/project1/public/assets/application-67a278a0863666a39529b41e31cd49d6-123.js",true)
+      fileexists(Dir.current + "/spec/sprockets/project1/public/manifest.json",true)
 
-      # cleanup
       remove_directory(dest_dir)
     end
 
@@ -253,8 +258,8 @@ describe "Sprockets precompile" do
       s.assets_map.size.should eq 124
 
       File.exists?(Dir.current + "/spec/sprockets/project3/public/assets/FontAwesome-be4df7ae826f6d705c4da7c7d1bd04f3.otf").should eq true
+      fileexists(Dir.current + "/spec/sprockets/project3/public/manifest.json",true)
 
-      # cleanup
       remove_directory(dest_dir)
     end
   end

@@ -7,12 +7,12 @@ require "./sass.cr"
 
 module Sprockets
 
-  EXTENSION_CSS        = "css"
-  EXTENSION_JS         = "js"
-  EXTENSION_SCSS       = "scss"
-  EXTENSION_SASS       = "sass"
-  EXTENSION_COFFEE     = "coffee"
-  EXTENSION_VUE        = "vue"
+  EXTENSION_CSS        = ".css"
+  EXTENSION_JS         = ".js"
+  EXTENSION_SCSS       = ".scss"
+  EXTENSION_SASS       = ".sass"
+  EXTENSION_COFFEE     = ".coffee"
+  EXTENSION_VUE        = ".vue"
 
   class Sprocket
 
@@ -125,46 +125,6 @@ module Sprockets
           walk_dir(dir)
         end
       end
-
-      #
-      # create manifest file
-      #
-      stream = Stream.new
-      stream.add("{")
-      stream.add("\"files\" : {")
-      @assets_map.each do |k,v|
-        if v.type != Sprockets::AssetType::SkipAsset
-          stream.add(sprintf("  \"%s\": {",strip_directory(v.dest_path)))
-          stream.add(sprintf("    \"logical_path\": \"%s\"",v.logical_path))
-          stream.add(sprintf("    \"mtime\": \"%s\"",v.mtime))
-          stream.add(sprintf("    \"digest\": \"%s\"",v.digest))
-          stream.add(sprintf("    \"integrity: \"%s\"",""))
-          stream.add("  },")
-        end
-      end
-      stream.add("},")
-      stream.add("\"assets\" : {")
-
-      @assets_map.each do |k,v|
-        if v.type != Sprockets::AssetType::SkipAsset
-          stream.add(sprintf("  \"%s\": \"%s\" ,",strip_directory(v.logical_path),strip_directory(v.dest_path)))
-        end
-      end
-      stream.add("  }")
-      stream.add("}")
-
-      dest = ""
-
-      if @is_relative
-        dest = @root_dir + @public_dir
-      else
-        dest = @public_dir
-      end
-
-      #puts "dest dir #{dest}"
-      create_directory(dest,0o755,false) #@is_relative)
-      stream.write(dest + "/manifest.json")
-
     end
 
     #
@@ -194,6 +154,38 @@ module Sprockets
         end
       end
     end # walk_dir
+
+    #
+    # create manifest file
+    #
+    def create_manifest()
+
+      # determine the public directory
+      dest = ""
+      if @is_relative
+        dest = @root_dir + @public_dir
+      else
+        dest = @public_dir
+      end
+
+      manifest = Sprockets::Assets.new
+      @assets_map.each do |k,v|
+
+        if v.type == Sprockets::AssetType::BundleAsset || v.type == Sprockets::AssetType::StaticAsset
+
+          key            = strip_directory(v.dest_path)
+          asset_location = @prefix + "/" + key
+
+          manifest.add_file(key,v)
+          manifest.add_asset(v.logical_path,asset_location)
+
+        end
+      end
+
+      filename = dest + "/manifest.json"
+      create_directory(dest,0o755,false)
+      write_file(filename, manifest.to_json, 0o644, true)
+    end
 
     def compute_target_path(filename : String) : {String,String}
 
@@ -225,7 +217,6 @@ module Sprockets
     #
     def determine_asset_type(asset : String) : Sprockets::AssetType
 
-      #if asset =~ /application\.[css|scss|sass]|application\.[js|coffee]/
       if asset =~ /application\.css/ || asset =~ /application\.scss/ || asset =~ /application\.sass/ || asset =~ /application\.js/ || asset =~ /application\.coffee/
         return Sprockets::AssetType::BundleAsset
       end
@@ -264,6 +255,8 @@ module Sprockets
         precompile_asset(v)
       end
 
+      create_manifest()
+
     end # precompile_assets
 
     #
@@ -290,27 +283,27 @@ module Sprockets
       ext = get_extension(asset.source_path)
       case ext
 
-        when ".js"
+        when EXTENSION_JS
           x = Sprockets::JS.new
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
-        when ".coffee"
+        when EXTENSION_COFFEE
           x = Sprockets::Coffee.new(@quiet)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
-        when ".css"
+        when EXTENSION_CSS
           x = Sprockets::CSS.new
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
-        when ".scss"
+        when EXTENSION_SCSS
           x = Sprockets::SASS.new(@quiet)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
-        when ".sass"
+        when EXTENSION_SASS
           x = Sprockets::SASS.new(@quiet)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
