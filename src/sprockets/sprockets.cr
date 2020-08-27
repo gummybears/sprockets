@@ -5,12 +5,13 @@ require "./js.cr"
 require "./coffee.cr"
 require "./sass.cr"
 
-EXTENSION_CSS        = ".css"
-EXTENSION_JS         = ".js"
-EXTENSION_SCSS       = ".scss"
-EXTENSION_SASS       = ".sass"
-EXTENSION_COFFEE     = ".coffee"
-EXTENSION_VUE        = ".vue"
+EXTENSION_CSS    = ".css"
+EXTENSION_JS     = ".js"
+EXTENSION_SCSS   = ".scss"
+EXTENSION_SASS   = ".sass"
+EXTENSION_COFFEE = ".coffee"
+EXTENSION_VUE    = ".vue"
+EXTENSION_GZIP   = ".gz"
 
 module Sprockets
 
@@ -31,6 +32,8 @@ module Sprockets
     property quiet             : Bool   = false
     property fake_copy         : Bool   = false
     property is_relative       : Bool   = false
+    property minified          : Bool   = false
+
     property mode              : String = ""
     property prefix            : String = ""
     property version           : String = ""
@@ -52,6 +55,7 @@ module Sprockets
       @fake_copy     = config.assets_fake_copy()
       @version       = config.assets_version()
       @raise_runtime = config.assets_raise_error()
+      @minified      = config.assets_minified()
 
       #
       # asset prefix, used in building the target directory
@@ -284,27 +288,27 @@ module Sprockets
       case ext
 
         when EXTENSION_JS
-          x = Sprockets::JS.new
+          x = Sprockets::JS.new(@quiet,@minified)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
         when EXTENSION_COFFEE
-          x = Sprockets::Coffee.new(@quiet)
+          x = Sprockets::Coffee.new(@quiet,@minified)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
         when EXTENSION_CSS
-          x = Sprockets::CSS.new
+          x = Sprockets::CSS.new(@quiet,@minified)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
         when EXTENSION_SCSS
-          x = Sprockets::SASS.new(@quiet)
+          x = Sprockets::SASS.new(@quiet,@minified)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
         when EXTENSION_SASS
-          x = Sprockets::SASS.new(@quiet)
+          x = Sprockets::SASS.new(@quiet,@minified)
           output = x.preprocess(asset.source_path)
           create_all_files(asset,output)
 
@@ -388,6 +392,12 @@ module Sprockets
       return true
     end
 
+    #
+    # found bug when gzip is true and
+    # precompiling a Coffeescript of Sass file
+    # in the old situation the source file was just g'zipped
+    # and not the compiled version of the source file
+    #
     def create_all_files(asset : Sprockets::Asset, data : Array(String))
 
       if @fake_copy
@@ -407,33 +417,82 @@ module Sprockets
         create_directory(asset.dest_path,0o755,@is_relative)
       end
 
-      ext = get_extension(asset.dest_path)
-      case ext
-        when EXTENSION_SASS # ".sass"
-          asset.rename_to_css()
-
-        when EXTENSION_SCSS #".scss"
-          asset.rename_to_css()
-
-        when EXTENSION_COFFEE #".coffee"
-          asset.rename_to_js()
-
-        else
-          # Crystal 0.34
-
-      end # case
+      # rename asset
+      rename_asset(asset)
 
       debug_create_file(asset.dest_path)
 
+      #
+      # if minified is true
+      # left/right strip spaces from
+      # data
+      #
+      if @minified
+        (0..data.size-1).each do |i|
+          data[i] = trim(data[i])
+        end
+      end
+
       if @digest && @gzip
-        create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
+
+        # create tmp output file
+        filename = "/tmp/#{strip_directory(asset.source_path)}"
+        create_file(filename,data)
+        create_gzip_file(filename,asset.dest_path,0o644,true)
+
+        # old code create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
       elsif @gzip
-        create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
+
+        # create tmp output file
+        filename = "/tmp/#{strip_directory(asset.source_path)}"
+        create_file(filename,data)
+        create_gzip_file(filename,asset.dest_path,0o644,true)
+
+        # old code create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
       elsif @digest
         create_file(asset.dest_path,data)
       else
         create_file(asset.dest_path,data)
       end
+    end
+
+    def rename_asset(asset : Sprockets::Asset)
+
+      ext = get_extension(asset.dest_path)
+      if ext == EXTENSION_GZIP
+
+        #
+        # remove .gz
+        #
+        filename = asset.dest_path.gsub(/\.gz/,"")
+        ext = get_extension(filename)
+
+        case ext
+          when EXTENSION_CSS
+            asset.rename_logical_path_to_css()
+          when EXTENSION_JS
+            asset.rename_logical_path_to_js()
+          else
+        end # case
+
+        return
+      end
+
+      case ext
+        when EXTENSION_SASS
+          asset.rename_to_css()
+
+        when EXTENSION_SCSS
+          asset.rename_to_css()
+
+        when EXTENSION_COFFEE
+          asset.rename_to_js()
+
+
+        else
+          # Crystal 0.34
+
+      end # case
     end
 
     def create_file(dest : String, data : Array(String))
@@ -446,7 +505,12 @@ module Sprockets
         return
       end
 
-      s = data.join("\n")
+      s = ""
+      if @minified
+        s = data.join(" ")
+      else
+        s = data.join("\n")
+      end
       write_file(dest, s, 0o644, true)
     end
   end

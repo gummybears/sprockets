@@ -3,12 +3,14 @@ require "./util.cr"
 
 module Sprockets
   class JS
-    property files  : Array(String)
+    property quiet     : Bool = true
+    property minifiied : Bool = false
     private property output : Array(String)
 
-    def initialize
-      @files  = [] of String
-      @output = [] of String
+    def initialize(quiet : Bool = true, minified : Bool = false)
+      @quiet    = quiet
+      @minified = minified
+      @output   = [] of String
     end
 
     def preprocess(filename : String)

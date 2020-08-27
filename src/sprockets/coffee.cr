@@ -3,16 +3,18 @@ require "./stream.cr"
 
 module Sprockets
   class Coffee
-    property quiet  : Bool = true
-    property is_js  : Bool = false
-    property js     : Stream
-    property coffee : Stream
+    property quiet     : Bool = true
+    property minifiied : Bool = false
+    property is_js     : Bool = false
+    property js        : Stream
+    property coffee    : Stream
 
-    def initialize(quiet : Bool = true)
-      @quiet  = quiet
-      @output = [] of String
-      @js     = Stream.new
-      @coffee = Stream.new
+    def initialize(quiet : Bool = true, minified : Bool = false)
+      @quiet    = quiet
+      @minified = minified
+      @output   = [] of String
+      @js       = Stream.new
+      @coffee   = Stream.new
     end
 
     def preprocess(filename : String) : Array(String)

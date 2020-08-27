@@ -77,6 +77,14 @@ module Sprockets
       return s.join("\n")
     end
 
+    def rename_logical_path_to_css()
+      @logical_path = strip_extension(@logical_path) + EXTENSION_CSS
+    end
+
+    def rename_logical_path_to_js()
+      @logical_path = strip_extension(@logical_path) + EXTENSION_JS
+    end
+
     def rename_to_css()
       @dest_path    = strip_extension(@dest_path)    + EXTENSION_CSS
       @source_path  = strip_extension(@source_path)  + EXTENSION_CSS

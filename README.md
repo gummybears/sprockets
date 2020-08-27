@@ -50,7 +50,8 @@ root_dir: <WORKDIR>
 # assets configuration
 assets:
   #
-  # a flag that enables the creation of gzipped version of compiled assets, along with non-gzipped assets. Set to true by default.
+  # a flag that enables the creation of gzipped version of compiled assets,
+  # along with non-gzipped assets. Set to true by default.
   #
   gzip: false
 
@@ -65,7 +66,8 @@ assets:
   quiet: true
 
   #
-  # version is optional, but when set is used in SHA256 hash generation, which will force all files to be recompiled.
+  # version is optional, but when set is used in SHA256 hash generation,
+  # which will force all files to be recompiled.
   #
   version:
 

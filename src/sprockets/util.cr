@@ -82,7 +82,21 @@ end
 # returns a gzip name given filename
 def gzip_filename(filename : String) : String
 
-  ext      = get_extension(filename)
+  ext = get_extension(filename)
+  case ext
+    when EXTENSION_SASS
+      ext = ".css"
+
+    when EXTENSION_SCSS
+      ext = ".css"
+
+    when EXTENSION_COFFEE
+      ext = ".js"
+
+    else
+      # Crystal 0.34
+  end
+
   filename = strip_extension(filename) + ext + ".gz"
   return filename
 end
@@ -165,6 +179,12 @@ end
 
 def remove_doublequotes(filename : String) : String
   return filename.gsub(/\"/,"")
+end
+
+def trim(s : String) : String
+  x = s.gsub(/^\s*/, "")
+  x = x.gsub(/\s*$/, "")
+  return x
 end
 
 # returns the difference of mtime's of file1 and file2

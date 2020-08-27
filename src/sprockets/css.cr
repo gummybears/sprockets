@@ -3,10 +3,14 @@ require "./util.cr"
 
 module Sprockets
   class CSS
-    private property output : Array(String)
+    property quiet     : Bool = true
+    property minifiied : Bool = false
+    private  property output : Array(String)
 
-    def initialize
-      @output = [] of String
+    def initialize(quiet : Bool = true, minified : Bool = false)
+      @quiet    = quiet
+      @minified = minified
+      @output   = [] of String
     end
 
     def preprocess(filename : String)

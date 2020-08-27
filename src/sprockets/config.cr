@@ -166,6 +166,10 @@ module Sprockets
       read_bool("assets","digest")
     end
 
+    def assets_minified() : Bool
+      read_bool("assets","minified")
+    end
+
     def assets_quiet() : Bool
       read_bool("assets","quiet")
     end

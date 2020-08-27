@@ -189,10 +189,6 @@ module Sprockets
     end
 
     def compile() : Array(String)
-      style = :allman_style
-      if @minified
-        style = :minimized
-      end
 
       output   = [] of String
 
@@ -204,12 +200,21 @@ module Sprockets
       end
 
       s = @output.join("\n")
+
+      if @minified
+        #
+        # Style can be
+        # COMPRESSED
+        # EXPANDED
+        # COMPACT
+        #
+        style = Sass::OutputStyle::COMPRESSED
+        x = Sass.compile(s,output_style: style)
+        output = x.split("\n")
+        return output
+      end
+
       x = Sass.compile(s)
-      # #compiler = Sass.new({output_style: style})
-      # #x = compiler.compile(s)
-      # compiler = Sass.new(output_style: :minimized)
-      # x = compiler.compile(s)
-      #
       output = x.split("\n")
       return output
     end
