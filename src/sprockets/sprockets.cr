@@ -38,14 +38,14 @@ module Sprockets
     property prefix            : String = ""
     property version           : String = ""
 
-    property config            : Sprockets::Config
+    # old code property config            : Sprockets::Config
 
     def initialize(config : Sprockets::Config)
       @source_dirs   = [] of String
       @assets        = [] of String
       @assets_map    = Hash(String,Sprockets::Asset).new
 
-      @config        = config
+      # old code @config        = config
 
       @mode          = config.mode()
       @debug         = config.assets_debug()
@@ -440,7 +440,6 @@ module Sprockets
         create_file(filename,data)
         create_gzip_file(filename,asset.dest_path,0o644,true)
 
-        # old code create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
       elsif @gzip
 
         # create tmp output file
@@ -448,7 +447,6 @@ module Sprockets
         create_file(filename,data)
         create_gzip_file(filename,asset.dest_path,0o644,true)
 
-        # old code create_gzip_file(asset.source_path,asset.dest_path,0o644,true)
       elsif @digest
         create_file(asset.dest_path,data)
       else

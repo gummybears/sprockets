@@ -99,6 +99,10 @@ assets:
 Possibly add minification for stylesheets and javascript assets and hot reloading
 of assets when in development mode.
 
+Minification of stylesheets works but not for Javascript/Coffeescript.
+Need to remove multiline comments from the Javascript/Coffeescript sources.
+
+
 ## Running the tests
 
 To run the tests, create a symbolic link gummybears

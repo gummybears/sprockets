@@ -22,7 +22,7 @@ module Sprockets
     def read(filename : String)
 
       basedir = strip_file(filename)
-      lines  = File.read_lines(filename)
+      lines   = File.read_lines(filename)
       lines.each do |line|
 
         #
