@@ -1,29 +1,26 @@
 require "sass"
 require "./util.cr"
+require "./resource.cr"
 
 module Sprockets
-  class SASS
-    property quiet     : Bool = true
-    property minifiied : Bool = false
-    private  property output : Array(String)
+  class SASS < Resource
 
-    def initialize(quiet : Bool = true, minified : Bool = false)
-      @quiet    = quiet
-      @minified = minified
-      @output   = [] of String
-    end
+    # old code def initialize(quiet : Bool = true, minified : Bool = false)
+    # old code   super(quiet,minified)
+    # old code end
 
     def preprocess(filename : String) : Array(String)
-      filenotfound(filename)
-      read(filename)
+      # old code filenotfound(filename)
+      # old code read(filename)
 
+      super(filename)
       return compile()
     end
 
-    def read(filename : String)
+    private def read(filename : String)
 
       if @quiet == false
-        puts "sprockets : read filename #{filename}"
+        report_info("read filename #{filename}")
       end
 
       ext     = get_extension(filename)
@@ -137,7 +134,7 @@ module Sprockets
     # sass
     # scss
     #
-    def testfile(basedir : String, org_filename : String)
+    private def testfile(basedir : String, org_filename : String)
 
       filename = strip_extension(org_filename)
 
@@ -188,7 +185,7 @@ module Sprockets
       end
     end
 
-    def compile() : Array(String)
+    private def compile() : Array(String)
 
       output   = [] of String
 

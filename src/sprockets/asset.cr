@@ -65,7 +65,7 @@ module Sprockets
     property mtime         : Time
 
     def initialize
-      @mtime    = Time.local
+      @mtime = Time.local
     end
 
     def to_s : String

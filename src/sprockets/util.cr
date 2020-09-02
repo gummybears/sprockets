@@ -56,6 +56,10 @@ def report_error(s : String)
   exit(-1)
 end
 
+def report_info(s : String)
+  puts "sprockets : #{s}"
+end
+
 def is_directory?(dir : String) : Bool
   return File.directory?(dir)
 end

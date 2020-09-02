@@ -38,14 +38,10 @@ module Sprockets
     property prefix            : String = ""
     property version           : String = ""
 
-    # old code property config            : Sprockets::Config
-
     def initialize(config : Sprockets::Config)
       @source_dirs   = [] of String
       @assets        = [] of String
       @assets_map    = Hash(String,Sprockets::Asset).new
-
-      # old code @config        = config
 
       @mode          = config.mode()
       @debug         = config.assets_debug()
@@ -86,7 +82,7 @@ module Sprockets
       set_relative()
 
       if @quiet == false
-        puts "sprockets : create directory #{@dest_dir}"
+        report_info("create directory #{@dest_dir}")
       end
       create_directory(@dest_dir,0o755,@is_relative)
 
@@ -251,9 +247,9 @@ module Sprockets
       #
       @assets_map.each do |k,v|
         if @quiet == false
-          puts "sprockets : precompiling asset   #{v.source_path} to #{v.dest_path}" if v.type == Sprockets::AssetType::BundleAsset
-          puts "sprockets : skipping asset       #{v.source_path}" if v.type == Sprockets::AssetType::SkipAsset
-          puts "sprockets : copying static asset #{v.source_path} to #{v.dest_path}" if v.type == Sprockets::AssetType::StaticAsset
+          report_info("precompiling asset   #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::BundleAsset
+          report_info("skipping asset       #{v.source_path}") if v.type == Sprockets::AssetType::SkipAsset
+          report_info("copying static asset #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::StaticAsset
         end
 
         precompile_asset(v)
@@ -352,19 +348,19 @@ module Sprockets
 
     def debug_create_file(filename : String)
       if @quiet == false
-        puts "sprockets : create file #{filename}"
+        report_info("create file #{filename}")
       end
     end
 
     def debug_copy_file(source : String, dest : String)
       if @quiet == false
-        puts "sprockets : copy file #{source} to #{dest}"
+        report_info("copy file #{source} to #{dest}")
       end
     end
 
     def debug_create_directory(dirname : String)
       if @quiet == false
-        puts "sprockets : create directory #{dirname}"
+        report_info("create directory #{dirname}")
       end
     end
 
@@ -402,7 +398,7 @@ module Sprockets
 
       if @fake_copy
         if @quiet == false
-          puts "sprockets : copying #{asset.source_path} to #{asset.dest_path} (simulate)"
+          report_info("copying #{asset.source_path} to #{asset.dest_path} (simulate)")
         end
 
         return
@@ -497,7 +493,7 @@ module Sprockets
 
       if @fake_copy
         if @quiet == false
-          puts "sprockets (test run) : create file #{dest}"
+          report_info("create file #{dest}")
         end
 
         return

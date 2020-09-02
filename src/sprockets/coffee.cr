@@ -1,34 +1,31 @@
 require "coffee-script"
 require "./stream.cr"
+require "./resource.cr"
 
 module Sprockets
-  class Coffee
-    property quiet     : Bool = true
-    property minifiied : Bool = false
+  class Coffee < Resource
     property is_js     : Bool = false
     property js        : Stream
     property coffee    : Stream
 
     def initialize(quiet : Bool = true, minified : Bool = false)
-      @quiet    = quiet
-      @minified = minified
-      @output   = [] of String
+      super(quiet,minified)
       @js       = Stream.new
       @coffee   = Stream.new
     end
 
     def preprocess(filename : String) : Array(String)
-      filenotfound(filename)
-      read(filename)
-
+      # old code filenotfound(filename)
+      # old code read(filename)
+      super(filename)
       compile()
       return @js.to_a
     end
 
-    def read(filename : String)
+    private def read(filename : String)
 
       if @quiet == false
-        puts "sprockets : read filename #{filename}"
+        report_info("read filename #{filename}")
       end
 
       ext     = get_extension(filename)
@@ -132,7 +129,7 @@ module Sprockets
     # js
     # coffee
     #
-    def testfile(basedir : String, org_filename : String)
+    private def testfile(basedir : String, org_filename : String)
 
       filename = strip_extension(org_filename)
 
@@ -149,7 +146,7 @@ module Sprockets
       end
     end
 
-    def compile()
+    private def compile()
 
       #
       # nothing to compile

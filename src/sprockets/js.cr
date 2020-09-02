@@ -1,25 +1,21 @@
 require "sass"
 require "./util.cr"
+require "./resource.cr"
 
 module Sprockets
-  class JS
-    property quiet     : Bool = true
-    property minifiied : Bool = false
-    private property output : Array(String)
+  class JS < Resource
 
-    def initialize(quiet : Bool = true, minified : Bool = false)
-      @quiet    = quiet
-      @minified = minified
-      @output   = [] of String
-    end
+    # old code def initialize(quiet : Bool = true, minified : Bool = false)
+    # old code   super(quiet,minified)
+    # old code end
 
-    def preprocess(filename : String)
-      filenotfound(filename)
-      read(filename)
-      return @output
-    end
+    # old code def preprocess(filename : String) : Array(String)
+    # old code   filenotfound(filename)
+    # old code   read(filename)
+    # old code   return @output
+    # old code end
 
-    def read(filename : String)
+    private def read(filename : String)
 
       basedir = strip_file(filename)
       lines  = File.read_lines(filename)
@@ -113,16 +109,11 @@ module Sprockets
     end
 
     #
-    # test the presence of the stylesheet
-    # with the following extension
+    # test the presence of either javascript or coffeescript
     #
-    # css
-    # sass
-    # scss
-    #
-    def testfile(basedir : String, filename : String)
+    private def testfile(basedir : String, filename : String)
 
-      full_filename1 = basedir + "/" + filename + ".js"
+      full_filename1 = basedir + "/" + filename + EXTENSION_JS
       flag1 = false
       flag2 = false
 
@@ -131,7 +122,7 @@ module Sprockets
         flag1 = true
       end
 
-      full_filename2 = basedir + "/" + filename + ".coffee"
+      full_filename2 = basedir + "/" + filename + EXTENSION_COFFEE
       if File.exists?(full_filename2)
         read(full_filename2)
         flag2 = true
