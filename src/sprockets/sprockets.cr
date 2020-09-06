@@ -359,8 +359,13 @@ module Sprockets
     end
 
     def debug_create_directory(dirname : String)
+
+      path = strip_file(dirname)
       if @quiet == false
-        report_info("create directory #{dirname}")
+        # old code report_info("create directory #{dirname}")
+        if Dir.exists?(path) == false
+          report_info("create directory #{path}")
+        end
       end
     end
 
@@ -448,6 +453,22 @@ module Sprockets
       else
         create_file(asset.dest_path,data)
       end
+    end
+
+    #
+    # minify data
+    #
+    def minify(data : Array(String) ) : Array(String)
+
+      output = [] of String
+      if @minified
+        (0..data.size-1).each do |i|
+          #data[i] = trim(data[i])
+          output << trim(data[i])
+        end
+      end
+
+      return output
     end
 
     def rename_asset(asset : Sprockets::Asset)

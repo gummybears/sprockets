@@ -15,11 +15,9 @@ module Sprockets
     end
 
     def preprocess(filename : String) : Array(String)
-      # old code filenotfound(filename)
-      # old code read(filename)
       super(filename)
       compile()
-      return @js.to_a
+      return remove_comments(@js.to_a)
     end
 
     private def read(filename : String)
@@ -33,9 +31,9 @@ module Sprockets
       lines   = File.read_lines(filename)
       lines.each do |line|
 
-        if line =~ /^@charset/
-          next
-        end
+        # old code if line =~ /^@charset/
+        # old code   next
+        # old code end
 
         #
         # process filename

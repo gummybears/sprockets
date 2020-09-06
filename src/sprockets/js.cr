@@ -5,15 +5,11 @@ require "./resource.cr"
 module Sprockets
   class JS < Resource
 
-    # old code def initialize(quiet : Bool = true, minified : Bool = false)
-    # old code   super(quiet,minified)
-    # old code end
-
-    # old code def preprocess(filename : String) : Array(String)
-    # old code   filenotfound(filename)
-    # old code   read(filename)
-    # old code   return @output
-    # old code end
+    def preprocess(filename : String) : Array(String)
+      filenotfound(filename)
+      read(filename)
+      return remove_comments(@output)
+    end
 
     private def read(filename : String)
 

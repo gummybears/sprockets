@@ -5,15 +5,12 @@ require "./resource.cr"
 module Sprockets
   class CSS < Resource
 
-    #def initialize(quiet : Bool = true, minified : Bool = false)
-    #  super(quiet,minified)
-    #end
-
-    # old code def preprocess(filename : String) : Array(String)
-    # old code   filenotfound(filename)
-    # old code   read(filename)
-    # old code   return @output
-    # old code end
+    def preprocess(filename : String) : Array(String)
+      filenotfound(filename)
+      read(filename)
+      # old code return @output
+      return remove_comments(@output)
+    end
 
     private def read(filename : String)
 
@@ -56,7 +53,8 @@ module Sprockets
 
           if md.size == 2
 
-            filename = strip_extension(md[1].not_nil!)
+            # old code filename = strip_extension(md[1].not_nil!)
+            filename = remove_doublequotes(strip_extension(md[1].not_nil!))
             testfile(basedir,filename)
 
           end

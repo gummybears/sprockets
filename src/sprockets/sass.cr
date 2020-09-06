@@ -5,16 +5,11 @@ require "./resource.cr"
 module Sprockets
   class SASS < Resource
 
-    # old code def initialize(quiet : Bool = true, minified : Bool = false)
-    # old code   super(quiet,minified)
-    # old code end
-
     def preprocess(filename : String) : Array(String)
-      # old code filenotfound(filename)
-      # old code read(filename)
-
       super(filename)
-      return compile()
+      # old code return compile()
+      lines = compile()
+      return remove_comments(lines)
     end
 
     private def read(filename : String)
@@ -28,9 +23,9 @@ module Sprockets
       lines   = File.read_lines(filename)
       lines.each do |line|
 
-        if line =~ /^@charset/
-          next
-        end
+        # old code if line =~ /^@charset/
+        # old code   next
+        # old code end
 
         if line == ""
           next
@@ -197,7 +192,6 @@ module Sprockets
       end
 
       s = @output.join("\n")
-
       if @minified
         #
         # Style can be
@@ -206,14 +200,14 @@ module Sprockets
         # COMPACT
         #
         style = Sass::OutputStyle::COMPRESSED
-        x = Sass.compile(s,output_style: style)
-        output = x.split("\n")
-        return output
+        x     = Sass.compile(s,output_style: style)
+        lines = x.split("\n")
+        return lines
       end
 
       x = Sass.compile(s)
-      output = x.split("\n")
-      return output
+      lines = x.split("\n")
+      return lines
     end
   end
 end
