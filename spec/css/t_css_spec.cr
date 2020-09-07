@@ -7,35 +7,35 @@ describe "CSS" do
       filename = "spec/css/app1.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app2.css" do
       filename = "spec/css/app2.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app3.css" do
       filename = "spec/css/app3.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app4.css" do
       filename = "spec/css/app4.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app5.css" do
       filename = "spec/css/app5.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
   end
 
@@ -44,21 +44,21 @@ describe "CSS" do
       filename = "spec/css/app6.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app7.css" do
       filename = "spec/css/app7.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
 
     it "app8.css" do
       filename = "spec/css/app8.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq "body {\n  fontsize: 10px;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}"
     end
   end
 
@@ -66,7 +66,7 @@ describe "CSS" do
     file   = "spec/css/application.css"
     css    = Sprockets::CSS.new
     output = css.preprocess(file).join("\n")
-    output.should eq ".v-features, .v-download, .v-forum, .v-contact {\n  min-width: 100%;\n  display: inline-block;\n}\n.v-feature {\n  text-align: center;\n  padding: 0 2rem;\n  margin: 3rem 0;\n}\n.v-feature img {\n  height: 64px;\n}\n.v-logo-image {\n  padding-top: 8px;\n  padding-bottom: 8px;\n}\n.v-sub-header {\n  padding-top: 10px;\n  height: 40px;\n}\n.v-header {\n  height: 65px;\n}\n.v-slider {\n  height: 520px;\n}\n.v-email span i {\n  padding-right: 10px;\n}\n.v-telephone span i {\n  padding-right: 10px;\n}\n.v-contact {\n  height: 100%;\n  min-width: 100%;\n  display: inline-block;\n  padding-top: 32px;\n  padding-bottom: 64px;\n}\n.v-contact-info p {\n  margin: 0;\n  margin-top: 8px;\n  margin-bottom: 8px;;\n  padding: 0;\n}\n.v-contact h4 {\n  margin-bottom: 4px;\n}\n.v-footer {\n  position: fixed;\n  left: 0px;\n  bottom: 0px;\n  height: 64px;\n  width: 100%;\n  z-depth: 9999;\n}\n.v-footer .container .row {\n  margin-top: 20px;\n}\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(../fonts/google_materialize.woff2) format('woff2');\n}\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  white-space: nowrap;\n  word-wrap: normal;\n  direction: ltr;\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased;\n}"
+    output.should eq ".v-features, .v-download, .v-forum, .v-contact {\nmin-width: 100%;\ndisplay: inline-block;\n}\n.v-feature {\ntext-align: center;\npadding: 0 2rem;\nmargin: 3rem 0;\n}\n.v-feature img {\nheight: 64px;\n}\n.v-logo-image {\npadding-top: 8px;\npadding-bottom: 8px;\n}\n.v-sub-header {\npadding-top: 10px;\nheight: 40px;\n}\n.v-header {\nheight: 65px;\n}\n.v-slider {\nheight: 520px;\n}\n.v-email span i {\npadding-right: 10px;\n}\n.v-telephone span i {\npadding-right: 10px;\n}\n.v-contact {\nheight: 100%;\nmin-width: 100%;\ndisplay: inline-block;\npadding-top: 32px;\npadding-bottom: 64px;\n}\n.v-contact-info p {\nmargin: 0;\nmargin-top: 8px;\nmargin-bottom: 8px;;\npadding: 0;\n}\n.v-contact h4 {\nmargin-bottom: 4px;\n}\n.v-footer {\nposition: fixed;\nleft: 0px;\nbottom: 0px;\nheight: 64px;\nwidth: 100%;\nz-depth: 9999;\n}\n.v-footer .container .row {\nmargin-top: 20px;\n}\n@font-face {\nfont-family: 'Material Icons';\nfont-style: normal;\nfont-weight: 400;\nsrc: url(../fonts/google_materialize.woff2) format('woff2');\n}\n.material-icons {\nfont-family: 'Material Icons';\nfont-weight: normal;\nfont-style: normal;\nfont-size: 24px;\nline-height: 1;\nletter-spacing: normal;\ntext-transform: none;\ndisplay: inline-block;\nwhite-space: nowrap;\nword-wrap: normal;\ndirection: ltr;\n-webkit-font-feature-settings: 'liga';\n-webkit-font-smoothing: antialiased;\n}"
   end
 
   describe "require_tree" do
@@ -74,7 +74,7 @@ describe "CSS" do
       filename = "spec/css/app9.css"
       css = Sprockets::CSS.new
       output = css.preprocess(filename)
-      output.join("\n").should eq  "body {\n  fontsize: 10px;\n}\ndiv {\n  height: 800px;\n}\np {\n  color: red;\n}"
+      output.join("\n").should eq "body {\nfontsize: 10px;\n}\ndiv {\nheight: 800px;\n}\np {\ncolor: red;\n}"
     end
   end
 

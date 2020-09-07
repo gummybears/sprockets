@@ -82,10 +82,15 @@ module Sprockets
       set_relative()
 
       if @quiet == false
-        report_info("create directory #{@dest_dir}")
+        if @is_relative
+          dest = @root_dir + @dest_dir
+          report_info("create directory #{dest}")
+        else
+          report_info("create directory #{@dest_dir}")
+        end
       end
-      create_directory(@dest_dir,0o755,@is_relative)
 
+      create_directory(@dest_dir,0o755,@is_relative)
       build_list()
     end
 
@@ -429,9 +434,10 @@ module Sprockets
       # data
       #
       if @minified
-        (0..data.size-1).each do |i|
-          data[i] = trim(data[i])
-        end
+        data = minify(data)
+        # old code (0..data.size-1).each do |i|
+        # old code   data[i] = trim(data[i])
+        # old code end
       end
 
       if @digest && @gzip
@@ -463,7 +469,6 @@ module Sprockets
       output = [] of String
       if @minified
         (0..data.size-1).each do |i|
-          #data[i] = trim(data[i])
           output << trim(data[i])
         end
       end

@@ -185,9 +185,19 @@ def remove_doublequotes(filename : String) : String
   return filename.gsub(/\"/,"")
 end
 
-def trim(s : String) : String
+def ltrim(s : String) : String
   x = s.gsub(/^\s*/, "")
-  x = x.gsub(/\s*$/, "")
+  return x
+end
+
+def rtrim(s : String) : String
+  x = s.gsub(/\s*$/, "")
+  return x
+end
+
+def trim(s : String) : String
+  x = ltrim(s)
+  x = rtrim(x)
   return x
 end
 

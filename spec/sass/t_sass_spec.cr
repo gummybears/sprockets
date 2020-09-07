@@ -8,7 +8,7 @@ describe "Sass compiler" do
     quiet  = true
     sass   = Sprockets::SASS.new(quiet)
     output = sass.preprocess(file).join("\n")
-    output.should eq "body div {\n  color: red; }"
+    output.should eq "body div {\ncolor: red; }"
   end
 
   it "application.css" do
@@ -16,7 +16,7 @@ describe "Sass compiler" do
     quiet  = true
     sass   = Sprockets::SASS.new(quiet)
     output = sass.preprocess(file).join("\n")
-    output.should eq ".v-features, .v-download, .v-forum, .v-contact {\n  min-width: 100%;\n  display: inline-block; }\n.v-feature {\n  text-align: center;\n  padding: 0 2rem;\n  margin: 3rem 0; }\n.v-feature img {\n  height: 64px; }\n.v-logo-image {\n  padding-top: 8px;\n  padding-bottom: 8px; }\n.v-sub-header {\n  padding-top: 10px;\n  height: 40px; }\n.v-header {\n  height: 65px; }\n.v-slider {\n  height: 520px; }\n.v-email span i {\n  padding-right: 10px; }\n.v-telephone span i {\n  padding-right: 10px; }\n.v-contact {\n  height: 100%;\n  min-width: 100%;\n  display: inline-block;\n  padding-top: 32px;\n  padding-bottom: 64px; }\n.v-contact-info p {\n  margin: 0;\n  margin-top: 8px;\n  margin-bottom: 8px;\n  padding: 0; }\n.v-contact h4 {\n  margin-bottom: 4px; }\n.v-footer {\n  position: fixed;\n  left: 0px;\n  bottom: 0px;\n  height: 64px;\n  width: 100%;\n  z-depth: 9999; }\n.v-footer .container .row {\n  margin-top: 20px; }\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(../fonts/google_materialize.woff2) format(\"woff2\"); }\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  white-space: nowrap;\n  word-wrap: normal;\n  direction: ltr;\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased; }"
+    output.should eq  ".v-features, .v-download, .v-forum, .v-contact {\nmin-width: 100%;\ndisplay: inline-block; }\n.v-feature {\ntext-align: center;\npadding: 0 2rem;\nmargin: 3rem 0; }\n.v-feature img {\nheight: 64px; }\n.v-logo-image {\npadding-top: 8px;\npadding-bottom: 8px; }\n.v-sub-header {\npadding-top: 10px;\nheight: 40px; }\n.v-header {\nheight: 65px; }\n.v-slider {\nheight: 520px; }\n.v-email span i {\npadding-right: 10px; }\n.v-telephone span i {\npadding-right: 10px; }\n.v-contact {\nheight: 100%;\nmin-width: 100%;\ndisplay: inline-block;\npadding-top: 32px;\npadding-bottom: 64px; }\n.v-contact-info p {\nmargin: 0;\nmargin-top: 8px;\nmargin-bottom: 8px;\npadding: 0; }\n.v-contact h4 {\nmargin-bottom: 4px; }\n.v-footer {\nposition: fixed;\nleft: 0px;\nbottom: 0px;\nheight: 64px;\nwidth: 100%;\nz-depth: 9999; }\n.v-footer .container .row {\nmargin-top: 20px; }\n@font-face {\nfont-family: 'Material Icons';\nfont-style: normal;\nfont-weight: 400;\nsrc: url(../fonts/google_materialize.woff2) format(\"woff2\"); }\n.material-icons {\nfont-family: 'Material Icons';\nfont-weight: normal;\nfont-style: normal;\nfont-size: 24px;\nline-height: 1;\nletter-spacing: normal;\ntext-transform: none;\ndisplay: inline-block;\nwhite-space: nowrap;\nword-wrap: normal;\ndirection: ltr;\n-webkit-font-feature-settings: 'liga';\n-webkit-font-smoothing: antialiased; }"
   end
 
   it "application.css (minified)" do

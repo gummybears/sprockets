@@ -20,40 +20,57 @@ module Sprockets
       return @output
     end
 
+    def read_plain(filename : String) : Array(String)
+      File.read_lines(filename)
+    end
+
     def remove_comments(input : Array(String) ) : Array(String)
 
-      delimiter = "__xyz__"
-      s = input.join(delimiter)
+      multiline = false
+      lines = [] of String
 
-      #
-      # /* ... */ on a single line
-      #
-      x = s.gsub(/\/\*.+\*\//,"")
-
-      #
-      # /* .. lines */ non greedy
-      #
-      x = x.gsub(/\/\*.+?\*\//m,"")
-
-      #
-      # // single line comment
-      #
-      x = x.gsub(/\/\/.+/,"")
-
-      output = [] of String
-      lines = x.split(delimiter)
-      lines.each do |l|
+      (0..input.size()-1).each do |i|
+        line = trim(input[i])
 
         #
-        # empty line
+        # multiline comments ?
         #
-        if l.size > 0
-          output << l
+        if line =~ /^\/\*/ && line !~ /\/\*.+\*\//
+          multiline = true
         end
 
-      end
+        if line =~ /^\*\//
+          multiline = false
+        end
 
-      return output
+        #
+        # single line comments
+        #
+        if multiline == false
+          if line =~ /\/\*.+\*\//
+
+            x = line.gsub(/\/\*.+\*\//,"")
+            if x.size > 0
+              lines << x
+            end
+
+          elsif line =~ /^\/\/.+/
+
+            x = line.gsub(/^\/\/.+/,"")
+            if x.size > 0
+              lines << x
+            end
+
+          elsif multiline == false
+
+            if line.size > 0 && line !~ /^\*\//
+              lines << line
+            end
+          end
+        end
+      end # each
+
+      return lines
     end
 
   end

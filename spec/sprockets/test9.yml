@@ -1,0 +1,24 @@
+mode: development
+root_dir: /home/gummybears/development/crystal/web/sprockets/spec/sprockets/project3/
+
+# assets configuration
+assets:
+
+  gzip: false
+  digest: false
+  quiet: true
+  minified: false
+  version:
+  raise_runtime_errors: true
+
+  # defines the prefix where assets are served from. Defaults to /assets.
+  prefix: /assets
+
+  public:
+    dir: /home/gummybears/development/crystal/web/sprockets/spec/sprockets/project3/public
+
+  source:
+    dirs:
+      - app/assets
+      - lib/assets
+      - vendor/assets
