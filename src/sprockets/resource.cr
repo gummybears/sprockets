@@ -26,6 +26,8 @@ module Sprockets
 
     def remove_comments(input : Array(String) ) : Array(String)
 
+      return input
+
       multiline = false
       lines = [] of String
 

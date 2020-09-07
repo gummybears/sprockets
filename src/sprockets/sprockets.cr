@@ -85,18 +85,19 @@ module Sprockets
       if @quiet == false
         if @is_relative
           dest = @root_dir + @dest_dir
-          print "sprockets : create directory".colorize.fore(:green)
+          print "sprockets : create directory ".colorize.fore(:green)
           puts "#{dest.colorize.fore(:yellow).mode(:bold)}"
 
           # old code report_info("create directory #{dest}")
         else
-          print "sprockets : create directory".colorize.fore(:green)
+          print "sprockets : create directory ".colorize.fore(:green)
           puts "#{@dest_dir.colorize.fore(:yellow).mode(:bold)}"
 
           # old code report_info("create directory #{@dest_dir}")
         end
       end
 
+      puts "current dir #{Dir.current} root dir #{@root_dir} dest dir #{@dest_dir}"
       create_directory(@dest_dir,0o755,@is_relative)
       build_list()
     end
