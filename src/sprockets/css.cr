@@ -8,7 +8,6 @@ module Sprockets
     def preprocess(filename : String) : Array(String)
       filenotfound(filename)
       read(filename)
-      # old code return @output
       return remove_comments(@output)
     end
 
@@ -53,7 +52,6 @@ module Sprockets
 
           if md.size == 2
 
-            # old code filename = strip_extension(md[1].not_nil!)
             filename = remove_doublequotes(strip_extension(md[1].not_nil!))
             testfile(basedir,filename)
 

@@ -7,7 +7,6 @@ module Sprockets
 
     def preprocess(filename : String) : Array(String)
       super(filename)
-      # old code return compile()
       lines = compile()
       return remove_comments(lines)
     end
@@ -18,17 +17,12 @@ module Sprockets
         print "sprockets : read file ".colorize.fore(:green)
         puts filename.colorize.fore(:yellow).mode(:bold)
 
-        # old code report_info("read filename #{filename}")
       end
 
       ext     = get_extension(filename)
       basedir = strip_file(filename)
       lines   = File.read_lines(filename)
       lines.each do |line|
-
-        # old code if line =~ /^@charset/
-        # old code   next
-        # old code end
 
         if line == ""
           next

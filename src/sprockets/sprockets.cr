@@ -82,23 +82,44 @@ module Sprockets
       set_dest_dir()
       set_relative()
 
-      if @quiet == false
-        if @is_relative
-          dest = @root_dir + @dest_dir
+      # old code if @quiet == false
+      # old code   if @is_relative
+      # old code     dest = @root_dir + @dest_dir
+      # old code     print "sprockets : create directory ".colorize.fore(:green)
+      # old code     puts "#{dest.colorize.fore(:yellow).mode(:bold)}"
+      # old code
+      # old code     # old code report_info("create directory #{dest}")
+      # old code   else
+      # old code     print "sprockets : create directory ".colorize.fore(:green)
+      # old code     puts "#{@dest_dir.colorize.fore(:yellow).mode(:bold)}"
+      # old code
+      # old code     # old code report_info("create directory #{@dest_dir}")
+      # old code   end
+      # old code end
+      # old code
+      # old code puts "current dir #{Dir.current} root dir #{@root_dir} dest dir #{@dest_dir}"
+      # old code create_directory(@dest_dir,0o755,@is_relative)
+
+      if @is_relative
+        dest = @root_dir + @dest_dir
+
+        if @quiet == false
           print "sprockets : create directory ".colorize.fore(:green)
           puts "#{dest.colorize.fore(:yellow).mode(:bold)}"
+        end
 
-          # old code report_info("create directory #{dest}")
-        else
+        create_directory(dest,0o755,@is_relative)
+
+      else
+        if @quiet == false
           print "sprockets : create directory ".colorize.fore(:green)
           puts "#{@dest_dir.colorize.fore(:yellow).mode(:bold)}"
-
-          # old code report_info("create directory #{@dest_dir}")
         end
+
+        create_directory(@dest_dir,0o755,@is_relative)
+
       end
 
-      puts "current dir #{Dir.current} root dir #{@root_dir} dest dir #{@dest_dir}"
-      create_directory(@dest_dir,0o755,@is_relative)
       build_list()
     end
 
@@ -467,15 +488,6 @@ module Sprockets
 
       debug_create_file(asset.dest_path)
 
-      # old code #
-      # old code # if minified is true
-      # old code # left/right strip spaces from
-      # old code # data
-      # old code #
-      # old code if @minified
-      # old code   data = minify(data)
-      # old code end
-
       if @digest && @gzip
 
         # create tmp output file
@@ -497,20 +509,20 @@ module Sprockets
       end
     end
 
-    #
-    # minify data
-    #
-    def minify(data : Array(String) ) : Array(String)
-
-      output = [] of String
-      if @minified
-        (0..data.size-1).each do |i|
-          output << trim(data[i])
-        end
-      end
-
-      return output
-    end
+    # old code #
+    # old code # minify data
+    # old code #
+    # old code def minify(data : Array(String) ) : Array(String)
+    # old code
+    # old code   output = [] of String
+    # old code   if @minified
+    # old code     (0..data.size-1).each do |i|
+    # old code       output << trim(data[i])
+    # old code     end
+    # old code   end
+    # old code
+    # old code   return output
+    # old code end
 
     def rename_asset(asset : Sprockets::Asset)
 
@@ -557,8 +569,6 @@ module Sprockets
         if @quiet == false
           print "sprockets : create file (simulate) ".colorize.fore(:green)
           puts dest.colorize.fore(:yellow).mode(:bold)
-
-          # old code report_info("create file #{dest}")
         end
 
         return

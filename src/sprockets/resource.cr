@@ -24,24 +24,79 @@ module Sprockets
       File.read_lines(filename)
     end
 
-    def remove_comments(input : Array(String) ) : Array(String)
+    #def remove_comments(input : Array(String) ) : Array(String)
+    #
+    #  multiline = false
+    #  lines = [] of String
+    #
+    #  (0..input.size()-1).each do |i|
+    #    line = trim(input[i])
+    #
+    #    #
+    #    # multiline comments ?
+    #    #
+    #    if line =~ /^\/\*/ && line !~ /\/\*.+\*\//
+    #      multiline = true
+    #    end
+    #
+    #    if line =~ /^\*\//
+    #      multiline = false
+    #    end
+    #
+    #    #
+    #    # single line comments
+    #    #
+    #    if multiline == false
+    #      if line =~ /\/\*.+\*\//
+    #
+    #        x = line.gsub(/\/\*.+\*\//,"")
+    #        if x.size > 0
+    #          lines << x
+    #        end
+    #
+    #      elsif line =~ /^\/\/.+/
+    #
+    #        x = line.gsub(/^\/\/.+/,"")
+    #        if x.size > 0
+    #          lines << x
+    #        end
+    #
+    #      elsif multiline == false
+    #
+    #        if line.size > 0 && line !~ /^\*\//
+    #          lines << line
+    #        end
+    #      end
+    #    end
+    #  end # each
+    #
+    #  return lines
+    #end
 
-      return input
+    def remove_comments(input : Array(String) ) : Array(String)
 
       multiline = false
       lines = [] of String
 
       (0..input.size()-1).each do |i|
-        line = trim(input[i])
+        line = input[i]
+        testline = trim(line)
 
         #
         # multiline comments ?
         #
-        if line =~ /^\/\*/ && line !~ /\/\*.+\*\//
+        if testline =~ /^\/\*/ && testline !~ /\/\*.+\*\//
           multiline = true
         end
 
-        if line =~ /^\*\//
+        #
+        # multiline comment ends when we encounter a line
+        # with '........ */'
+        # Note : dots can be any character but not the combination '*/'
+        # as '*/*/'
+        #
+        #
+        if testline =~ /\*\/$/
           multiline = false
         end
 
@@ -49,24 +104,31 @@ module Sprockets
         # single line comments
         #
         if multiline == false
-          if line =~ /\/\*.+\*\//
+          #
+          # single line comment '/* ...... */'
+          #
+          if testline =~ /\/\*.+\*\//
 
             x = line.gsub(/\/\*.+\*\//,"")
             if x.size > 0
-              lines << x
+              lines << trim(x)
             end
 
-          elsif line =~ /^\/\/.+/
+          #
+          # single line comment '// ......'
+          #
+          elsif testline =~ /^\/\/.+/
 
-            x = line.gsub(/^\/\/.+/,"")
+            x = line.gsub(/\/\/.+/,"")
+            x = trim(x)
             if x.size > 0
-              lines << x
+              lines << trim(x)
             end
 
           elsif multiline == false
 
-            if line.size > 0 && line !~ /^\*\//
-              lines << line
+            if line.size > 0 && testline !~ /\*\/$/
+              lines << trim(line)
             end
           end
         end
@@ -74,6 +136,5 @@ module Sprockets
 
       return lines
     end
-
   end
 end
