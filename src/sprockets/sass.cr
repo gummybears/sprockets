@@ -15,7 +15,10 @@ module Sprockets
     private def read(filename : String)
 
       if @quiet == false
-        report_info("read filename #{filename}")
+        print "sprockets : read file ".colorize.fore(:green)
+        puts filename.colorize.fore(:yellow).mode(:bold)
+
+        # old code report_info("read filename #{filename}")
       end
 
       ext     = get_extension(filename)

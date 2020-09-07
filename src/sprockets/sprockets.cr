@@ -4,6 +4,7 @@ require "./css.cr"
 require "./js.cr"
 require "./coffee.cr"
 require "./sass.cr"
+require "colorize"
 
 EXTENSION_CSS    = ".css"
 EXTENSION_JS     = ".js"
@@ -84,9 +85,15 @@ module Sprockets
       if @quiet == false
         if @is_relative
           dest = @root_dir + @dest_dir
-          report_info("create directory #{dest}")
+          print "sprockets : create directory".colorize.fore(:green)
+          puts "#{dest.colorize.fore(:yellow).mode(:bold)}"
+
+          # old code report_info("create directory #{dest}")
         else
-          report_info("create directory #{@dest_dir}")
+          print "sprockets : create directory".colorize.fore(:green)
+          puts "#{@dest_dir.colorize.fore(:yellow).mode(:bold)}"
+
+          # old code report_info("create directory #{@dest_dir}")
         end
       end
 
@@ -247,14 +254,32 @@ module Sprockets
     #
     def precompile_assets()
 
+
       #
       # precompile an asset
       #
       @assets_map.each do |k,v|
         if @quiet == false
-          report_info("precompiling asset   #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::BundleAsset
-          report_info("skipping asset       #{v.source_path}") if v.type == Sprockets::AssetType::SkipAsset
-          report_info("copying static asset #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::StaticAsset
+          #report_info("precompiling asset   #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::BundleAsset
+          #report_info("skipping asset       #{v.source_path}") if v.type == Sprockets::AssetType::SkipAsset
+          #report_info("copying static asset #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::StaticAsset
+
+          if v.type == Sprockets::AssetType::BundleAsset
+            puts "sprockets : precompiling asset".colorize.fore(:green)
+            puts "#{v.source_path.colorize.fore(:yellow).mode(:bold)}"
+            puts "#{v.dest_path.colorize.fore(:white).mode(:bold)}"
+          end
+
+          if v.type == Sprockets::AssetType::SkipAsset
+            print "sprockets : skipping asset".colorize.fore(:green)
+            puts  " #{v.source_path.colorize.blue}"
+          end
+
+          if v.type == Sprockets::AssetType::StaticAsset
+            puts "sprockets : copying static asset".colorize.fore(:green)
+            puts "#{v.source_path.colorize.fore(:yellow).mode(:bold)}"
+            puts "#{v.dest_path.colorize.fore(:white).mode(:bold)}"
+          end
         end
 
         precompile_asset(v)
@@ -353,13 +378,20 @@ module Sprockets
 
     def debug_create_file(filename : String)
       if @quiet == false
-        report_info("create file #{filename}")
+        #report_info("create file #{filename}")
+        print "sprockets : create file ".colorize.fore(:green)
+        puts filename.colorize.fore(:yellow).mode(:bold)
+
       end
     end
 
     def debug_copy_file(source : String, dest : String)
       if @quiet == false
-        report_info("copy file #{source} to #{dest}")
+        #report_info("copy file #{source} to #{dest}")
+        print "sprockets : copy file ".colorize.fore(:green)
+        puts source.colorize.fore(:yellow).mode(:bold)
+        puts dest.colorize.fore(:yellow).mode(:bold)
+
       end
     end
 
@@ -369,7 +401,9 @@ module Sprockets
       if @quiet == false
         # old code report_info("create directory #{dirname}")
         if Dir.exists?(path) == false
-          report_info("create directory #{path}")
+          print "sprockets : create directory ".colorize.fore(:green)
+          puts path.colorize.fore(:yellow).mode(:bold)
+          #report_info("create directory #{path}")
         end
       end
     end
@@ -408,7 +442,11 @@ module Sprockets
 
       if @fake_copy
         if @quiet == false
-          report_info("copying #{asset.source_path} to #{asset.dest_path} (simulate)")
+          # old code report_info("copying #{asset.source_path} to #{asset.dest_path} (simulate)")
+          print "sprockets : copy file (simulate) ".colorize.fore(:green)
+          puts asset.source_path.colorize.fore(:yellow).mode(:bold)
+          puts asset.dest_path.colorize.fore(:yellow).mode(:bold)
+
         end
 
         return
@@ -428,17 +466,14 @@ module Sprockets
 
       debug_create_file(asset.dest_path)
 
-      #
-      # if minified is true
-      # left/right strip spaces from
-      # data
-      #
-      if @minified
-        data = minify(data)
-        # old code (0..data.size-1).each do |i|
-        # old code   data[i] = trim(data[i])
-        # old code end
-      end
+      # old code #
+      # old code # if minified is true
+      # old code # left/right strip spaces from
+      # old code # data
+      # old code #
+      # old code if @minified
+      # old code   data = minify(data)
+      # old code end
 
       if @digest && @gzip
 
@@ -519,7 +554,10 @@ module Sprockets
 
       if @fake_copy
         if @quiet == false
-          report_info("create file #{dest}")
+          print "sprockets : create file (simulate) ".colorize.fore(:green)
+          puts dest.colorize.fore(:yellow).mode(:bold)
+
+          # old code report_info("create file #{dest}")
         end
 
         return
