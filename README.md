@@ -1,7 +1,6 @@
 # sprockets
 
 A really simple assets manager.
-This is work in progress.
 
 ## Installation
 
