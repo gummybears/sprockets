@@ -82,24 +82,6 @@ module Sprockets
       set_dest_dir()
       set_relative()
 
-      # old code if @quiet == false
-      # old code   if @is_relative
-      # old code     dest = @root_dir + @dest_dir
-      # old code     print "sprockets : create directory ".colorize.fore(:green)
-      # old code     puts "#{dest.colorize.fore(:yellow).mode(:bold)}"
-      # old code
-      # old code     # old code report_info("create directory #{dest}")
-      # old code   else
-      # old code     print "sprockets : create directory ".colorize.fore(:green)
-      # old code     puts "#{@dest_dir.colorize.fore(:yellow).mode(:bold)}"
-      # old code
-      # old code     # old code report_info("create directory #{@dest_dir}")
-      # old code   end
-      # old code end
-      # old code
-      # old code puts "current dir #{Dir.current} root dir #{@root_dir} dest dir #{@dest_dir}"
-      # old code create_directory(@dest_dir,0o755,@is_relative)
-
       if @is_relative
         dest = @root_dir + @dest_dir
 
@@ -282,9 +264,6 @@ module Sprockets
       #
       @assets_map.each do |k,v|
         if @quiet == false
-          #report_info("precompiling asset   #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::BundleAsset
-          #report_info("skipping asset       #{v.source_path}") if v.type == Sprockets::AssetType::SkipAsset
-          #report_info("copying static asset #{v.source_path} to #{v.dest_path}") if v.type == Sprockets::AssetType::StaticAsset
 
           if v.type == Sprockets::AssetType::BundleAsset
             puts "sprockets : precompiling asset".colorize.fore(:green)
@@ -409,7 +388,7 @@ module Sprockets
 
     def debug_copy_file(source : String, dest : String)
       if @quiet == false
-        #report_info("copy file #{source} to #{dest}")
+
         print "sprockets : copy file ".colorize.fore(:green)
         puts source.colorize.fore(:yellow).mode(:bold)
         puts dest.colorize.fore(:yellow).mode(:bold)
@@ -421,11 +400,11 @@ module Sprockets
 
       path = strip_file(dirname)
       if @quiet == false
-        # old code report_info("create directory #{dirname}")
+
         if Dir.exists?(path) == false
           print "sprockets : create directory ".colorize.fore(:green)
           puts path.colorize.fore(:yellow).mode(:bold)
-          #report_info("create directory #{path}")
+
         end
       end
     end
@@ -464,7 +443,7 @@ module Sprockets
 
       if @fake_copy
         if @quiet == false
-          # old code report_info("copying #{asset.source_path} to #{asset.dest_path} (simulate)")
+
           print "sprockets : copy file (simulate) ".colorize.fore(:green)
           puts asset.source_path.colorize.fore(:yellow).mode(:bold)
           puts asset.dest_path.colorize.fore(:yellow).mode(:bold)
@@ -483,9 +462,10 @@ module Sprockets
         create_directory(asset.dest_path,0o755,@is_relative)
       end
 
+      #
       # rename asset
+      #
       rename_asset(asset)
-
       debug_create_file(asset.dest_path)
 
       if @digest && @gzip
@@ -508,21 +488,6 @@ module Sprockets
         create_file(asset.dest_path,data)
       end
     end
-
-    # old code #
-    # old code # minify data
-    # old code #
-    # old code def minify(data : Array(String) ) : Array(String)
-    # old code
-    # old code   output = [] of String
-    # old code   if @minified
-    # old code     (0..data.size-1).each do |i|
-    # old code       output << trim(data[i])
-    # old code     end
-    # old code   end
-    # old code
-    # old code   return output
-    # old code end
 
     def rename_asset(asset : Sprockets::Asset)
 

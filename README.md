@@ -96,12 +96,28 @@ assets:
 
 ## Development
 
-Possibly add minification for stylesheets and javascript assets and hot reloading
-of assets when in development mode.
+Minification for stylesheets and javascript assets implemented.
+Hot reloading of assets can be implemented via middleware, see the next example
+for the Kemal framework.
 
-Minification of stylesheets works but not for Javascript/Coffeescript.
-Need to remove multiline comments from the Javascript/Coffeescript sources.
+```
+class ReloadAssets < Kemal::Handler
+  def call(env)
 
+    if Kemal.config.env == "development"
+      puts "[development] precompiling assets"
+
+      filename = "src/assets.yml"
+      config = Sprockets::Config.new(filename)
+      s      = Sprockets::Sprocket.new(config)
+      s.precompile_assets()
+    end
+    call_next env
+  end
+end
+
+add_handler ReloadAssets.new
+```
 
 ## Running the tests
 
