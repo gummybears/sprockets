@@ -258,7 +258,6 @@ module Sprockets
     #
     def precompile_assets()
 
-
       #
       # precompile an asset
       #
@@ -379,7 +378,7 @@ module Sprockets
 
     def debug_create_file(filename : String)
       if @quiet == false
-        #report_info("create file #{filename}")
+        # old code report_info("create file #{filename}")
         print "sprockets : create file ".colorize.fore(:green)
         puts filename.colorize.fore(:yellow).mode(:bold)
 
@@ -539,12 +538,26 @@ module Sprockets
         return
       end
 
+      ext = get_extension(dest)
+
+      #
+      # only minify CSS files
+      #
       s = ""
-      if @minified
-        s = data.join(" ")
-      else
-        s = data.join("\n")
-      end
+      case ext
+        when EXTENSION_CSS
+          if @minified
+            s = data.join(" ")
+          else
+            s = data.join("\n")
+          end
+
+        else
+
+          s = data.join("\n")
+
+      end # case
+
       write_file(dest, s, 0o644, true)
     end
   end
