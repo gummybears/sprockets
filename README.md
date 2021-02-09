@@ -95,9 +95,8 @@ assets:
 
 ## Development
 
-Minification for stylesheets and javascript assets implemented.
-Hot reloading of assets can be implemented via middleware, see the next example
-for the Kemal framework.
+Minification CSS stylesheets implemented. Hot reloading of assets can be implemented
+via middleware, see the next example for the Kemal framework.
 
 ```
 class ReloadAssets < Kemal::Handler
