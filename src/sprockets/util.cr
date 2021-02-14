@@ -1,5 +1,5 @@
 require "digest/md5"
-require "gzip"
+require "compress/gzip"
 require "json"
 
 # checks directory exists
@@ -131,7 +131,9 @@ def create_gzip_file(source : String, dest : String, permission = 0o755, overwri
   File.open(source, "r") do |input_file|
     File.open(dest, "w") do |output_file|
       # 0.35.1 Compress::Gzip::Writer.open(output_file) do |gzip|
-      Gzip::Writer.open(output_file) do |gzip|
+      # old code Gzip::Writer.open(output_file) do |gzip|
+      # 0.36.1
+      Compress::Gzip::Writer.open(output_file) do |gzip|
         IO.copy(input_file, gzip)
       end
     end
