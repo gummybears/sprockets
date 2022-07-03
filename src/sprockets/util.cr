@@ -47,7 +47,7 @@ end
 
 def filenotfound(filename : String)
   if File.exists?(filename) == false
-    report_error("sprockets : file #{filename} not found")
+    report_error("file #{filename} not found")
   end
 end
 

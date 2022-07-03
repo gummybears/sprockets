@@ -202,7 +202,7 @@ module Sprockets
     def assets_public_directory() : String
       x = read_string("assets","public","dir")
       if x == ""
-        report_error("sprockets : public assets directory not set")
+        report_error("public assets directory not set")
       end
 
       return x

@@ -64,7 +64,7 @@ module Sprockets
             dirname = strip_extension(md[1].not_nil!)
             dirname = basedir + "/" + dirname
             if Dir.exists?(dirname) == false
-              report_error("sprockets : directory #{dirname} not found")
+              report_error("directory #{dirname} not found")
             end
 
             #
