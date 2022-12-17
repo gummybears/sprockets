@@ -130,9 +130,6 @@ def create_gzip_file(source : String, dest : String, permission = 0o755, overwri
 
   File.open(source, "r") do |input_file|
     File.open(dest, "w") do |output_file|
-      # 0.35.1 Compress::Gzip::Writer.open(output_file) do |gzip|
-      # old code Gzip::Writer.open(output_file) do |gzip|
-      # 0.36.1
       Compress::Gzip::Writer.open(output_file) do |gzip|
         IO.copy(input_file, gzip)
       end
@@ -296,5 +293,11 @@ def asset_path(public_dir : String,filename : String)
   end
 
   return "/assets/#{filename}"
+end
+
+def remove_comments(input : Array(String) ) : Array(String)
+
+  comment = Comment.new(input)
+  comment.remove()
 end
 

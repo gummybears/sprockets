@@ -17,7 +17,8 @@ module Sprockets
     def preprocess(filename : String) : Array(String)
       super(filename)
       compile()
-      return remove_comments(@js.to_a)
+      #return remove_comments(@js.to_a)
+      return @js.to_a
     end
 
     private def read(filename : String)

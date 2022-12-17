@@ -8,7 +8,8 @@ module Sprockets
     def preprocess(filename : String) : Array(String)
       filenotfound(filename)
       read(filename)
-      return remove_comments(@output)
+      # 06-07-2022 disabled return remove_comments(@output)
+      return @output
     end
 
     private def read(filename : String)
@@ -90,13 +91,13 @@ module Sprockets
 
         else
 
-          #
-          # skip lines which have comment markers
-          # like  '/*' ||  '*/'
-          #
-          if line =~ /\/\*/ || line =~ /\*\// || line =~ /\/\//
-            next
-          end
+          # disabled 06-07-2022 #
+          # disabled 06-07-2022 # skip lines which have comment markers
+          # disabled 06-07-2022 # like  '/*' ||  '*/'
+          # disabled 06-07-2022 #
+          # disabled 06-07-2022 if line =~ /\/\*/ || line =~ /\*\// || line =~ /\/\//
+          # disabled 06-07-2022   next
+          # disabled 06-07-2022 end
 
           @output << line
 

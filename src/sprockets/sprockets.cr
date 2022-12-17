@@ -253,7 +253,7 @@ module Sprockets
     # to the public directory (@public_dir)
     #
     # exception : for Javascript and CSS stylesheets the assets are precompiled
-    # need to check each of these assets, they contain Sprockets directives
+    # need to check each of these assets, they possibly contain Sprockets directives
     # if so need to exclude the required files from being copied
     #
     def precompile_assets()
